@@ -5,7 +5,7 @@ import { call } from 'redux-saga/effects';
 const axios = require('axios');
 
 
-export function* setLoginAction() {
+export function* LoginAction() {
     //yield delay(2000); set delay
     const url = 'http://localhost:5000/api/users';
     const response = yield axios.get(url);
