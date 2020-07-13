@@ -1,0 +1,2 @@
+export const ON_REGISTER = 'ON_REGISTER';
+export const ON_REGISTER_REQUEST = 'ON_REGISTER_REQUEST';
