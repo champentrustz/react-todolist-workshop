@@ -11,6 +11,7 @@ import {
 import './register.css';
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
+import {ON_REGISTER_REQUEST} from "../../redux/types/register.type";
 
 const {Content} = Layout;
 
@@ -47,7 +48,7 @@ function RegisterPage() {
 
     const onSubmit = values => {
 
-        console.log('Received values of form: ', values);
+        action(ON_REGISTER_REQUEST,values);
 
     };
 
