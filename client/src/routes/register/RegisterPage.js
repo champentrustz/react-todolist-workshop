@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     Layout,
     Form,
@@ -6,12 +6,13 @@ import {
     Button,
     Card,
     Breadcrumb,
+    Alert,
 } from 'antd';
 
 import './register.css';
-import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {ON_REGISTER_REQUEST} from "../../redux/types/register.type";
+import {Link, useHistory } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {CLEAR_REGISTER_REQUEST, REGISTER_REQUEST} from "../../redux/types/register.type";
 
 const {Content} = Layout;
 
@@ -44,14 +45,22 @@ function RegisterPage() {
 
     const dispatch = useDispatch();
     const action = (type, payload) => dispatch({type, payload});
+    const authReducer = useSelector(({authReducer}) => authReducer);
 
+    const isRegistered = authReducer.isRegistered;
+
+
+    let history = useHistory();
+
+    useEffect(()=>{
+        if(isRegistered === true){
+            history.push("/");
+        }
+    },[isRegistered,history]);
 
     const onSubmit = values => {
-
-        action(ON_REGISTER_REQUEST,values);
-
+        action(REGISTER_REQUEST,values);
     };
-
 
     return (
 
@@ -60,6 +69,12 @@ function RegisterPage() {
 
 
             <div style={{display: 'flex', flexDirection: 'column', width: '550px'}}>
+
+
+                {isRegistered === false ?
+                    <Alert message="Username is already exist" type="error" showIcon /> : null
+
+                }
 
                 <Breadcrumb style={{margin: '16px 0'}}>
                     <Breadcrumb.Item>
@@ -113,6 +128,10 @@ function RegisterPage() {
                                     required: true,
                                     message: 'Please input your password!',
                                 },
+                                {
+                                    min : 4,
+                                    message:  'Password length are at least 4',
+                                }
                             ]}
                             hasFeedback
                         >
@@ -146,9 +165,14 @@ function RegisterPage() {
 
 
                         <Form.Item {...tailFormItemLayout}>
-                            <Button type="primary" htmlType="submit">
-                                Register
-                            </Button>
+                            {isRegistered === true ?
+                                <Button type="primary" htmlType="submit" loading>
+                                    Register
+                                </Button>
+                                :  <Button type="primary" htmlType="submit">
+                                    Register
+                                </Button>
+                            }
                         </Form.Item>
                     </Form>
                 </Card>
@@ -159,5 +183,6 @@ function RegisterPage() {
 
     );
 }
+
 
 export default RegisterPage;

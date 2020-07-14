@@ -1,6 +1,8 @@
-import loginReducer from './login.reducer';
+import authReducer from './auth.reducer';
 const {combineReducers} = require("redux");
 
 
 
-export default combineReducers({loginReducer});
+export default combineReducers({
+    authReducer,
+});

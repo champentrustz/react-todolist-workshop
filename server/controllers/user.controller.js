@@ -3,33 +3,71 @@ const jwt = require('jsonwebtoken');
 
 const jwtSecret = process.env.JWT_SECRET;
 
-const getUsers = async (req, res) => {
-    await User.find({}, (err, users) => {
-        if (err) {
-            return res.status(400).json({success: false, error: err})
+function getUser (req, res) {
+    const username = req.body.username;
+    const password = req.body.password;
+    User.findOne({username : username, password : password}).then(user =>{
+        if(!user){
+            return res.status(400).json({msg : 'Username does not exist'});
         }
-        if (!users.length) {
-            return res
-                .status(404).json({success: false, error: `User`})
-        }
-        return res.status(200).json({data: users})
-    }).catch(err => console.log(err))
+        return jwt.sign(
+            {
+                id: user.id,
+                name: user.name,
+            },
+            jwtSecret,
+            {expiresIn: 3600},
+            (err, token) => {
+                if (err) throw err;
+                res.json({
+                    success: true,
+                    token: token,
+                    user: {
+                        id: user.id,
+                        name: user.name
+                    }
+                })
+            }
+        )
+
+    })
 }
 
-const addUser = async (req, res) => {
+function getUserJWT (req, res) {
+    const token = req.header('x-auth-token');
+    if(!token){
+        return res.status(401).json({success: false, msg: 'No token, authorization denied'});
+    }
+    try{
+        const decoded = jwt.verify(token, jwtSecret);
+        return res.json({
+            success : true,
+            user : decoded,
+        });
+
+
+    }catch (err) {
+        return res.status(400).json({success: false, msg : 'Token is not valid'});
+    }
+}
+
+function addUser (req, res)  {
     const username = req.body.username;
     const password = req.body.password;
     const name = req.body.name;
 
     User.findOne({username}).then(user => {
         if (user) {
-            return res.status(400).json({msg: 'User is already exist'});
+            return res.status(400).json({success: false, msg: 'Wrong username or password'});
         }
         const newUser = new User({username, password, name});
         newUser.save()
             .then(user => {
                 return jwt.sign(
-                    {id: user.id},
+                    {
+                        id: user.id,
+                        name: user.name,
+                    },
                     jwtSecret,
                     {expiresIn: 3600},
                     (err, token) => {
@@ -51,12 +89,13 @@ const addUser = async (req, res) => {
                     message: 'User not created!',
                 })
             })
+    }).catch((err) =>{
+        return res.status(400).json({success: false, msg: 'Wrong username or password'});
     })
-
-
 }
 
 module.exports = {
-    getUsers,
+    getUserJWT,
     addUser,
+    getUser,
 }

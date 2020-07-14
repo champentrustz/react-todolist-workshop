@@ -1,8 +1,9 @@
 import {takeEvery, all, call} from 'redux-saga/effects';
-import {ON_REGISTER_REQUEST} from "../types/register.type";
+import { REGISTER_REQUEST} from "../types/register.type";
+import {RegisterAction} from "../actions/register.action";
 
 function* watchRegisterAction() {
-    yield takeEvery(ON_REGISTER_REQUEST,)
+    yield takeEvery(REGISTER_REQUEST,RegisterAction);
 }
 
 export default function* registerSaga() {

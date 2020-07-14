@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import './login.css';
-import {Layout, Card, Form, Button, Input, Typography} from 'antd';
+import {Layout, Card, Form, Button, Input, Typography, Alert} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {ON_LOGIN_REQUEST} from "../../redux/types/login.type";
-import loginReducer from "../../redux/reducers/login.reducer";
+import {LOGIN_REQUEST, ON_LOGIN_REQUEST} from "../../redux/types/login.type";
 
 const {Text} = Typography;
 const {Content} = Layout;
@@ -16,25 +15,30 @@ function LoginPage() {
 
     const dispatch = useDispatch();
     const action = (type,payload)=>dispatch({type,payload});
-    const loginReducer = useSelector(({loginReducer}) => loginReducer);
+    const authReducer = useSelector(({authReducer}) => authReducer);
+    const isLogin = authReducer.isLogin
+    let history = useHistory();
 
+    const onSubmit = values => {
+         action(LOGIN_REQUEST,values)
+    };
 
-    // const onSubmit = values => {
-    //     console.log('Received values of form: ', values);
-    // };
+    useEffect(()=>{
+        if(isLogin === true){
+            history.push("/");
+        }
+    },[isLogin,history]);
 
-    const {username} = loginReducer.userData;
-    const token = loginReducer.token;
 
     return (
 
         <Content className="content-layout content-center">
 
+            <div style={{display: 'flex', flexDirection: 'column', width: '550px'}}>
 
-            <Card style={{width: '550px'}} bordered={false}>
 
-                {console.log(username)}
-                {console.log(token)}
+            <Card bordered={false}>
+
 
                 <div className="content-center">
 
@@ -46,9 +50,12 @@ function LoginPage() {
                 <br/>
                 <h1 style={{textAlign: 'center'}}><Text>Todo-list Workshop</Text></h1>
                 <br/>
+                {isLogin === false ?
+                    <Alert message="Wrong username or password" type="error" showIcon /> : null
+                }
                 <br/>
                 <Form
-                    onFinish={()=>action(ON_LOGIN_REQUEST)}
+                    onFinish={onSubmit}
                     name="normal_login"
                     className="login-form"
                     initialValues={{remember: true}}
@@ -107,6 +114,7 @@ function LoginPage() {
             {/*            </Col>*/}
             {/*    )}*/}
             {/*</Row>*/}
+            </div>
 
         </Content>
 
