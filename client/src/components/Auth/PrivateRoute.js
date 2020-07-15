@@ -17,7 +17,6 @@ function PrivateRoute({children, ...rest}) {
     const authReducer = useSelector(({authReducer}) => authReducer);
     const token = authReducer.token;
 
-
     return (
 
         <Route

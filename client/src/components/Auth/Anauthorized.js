@@ -1,6 +1,6 @@
 import React from "react";
 import {
-    Route, Link,
+    Route, Link, Redirect,
 } from "react-router-dom";
 
 import {useSelector} from "react-redux";
@@ -23,9 +23,14 @@ function Anauthorized({children, ...rest}) {
         <Route
 
             {...rest}
-            render={() =>
+            render={({location}) =>
                 isAuthenticated === false ? (
-                    <AlertAnauthorized/>
+                    <Redirect
+                        to={{
+                            pathname: "/auth-error",
+                            state: {from: location}
+                        }}
+                    />
                 ) : (
                     children
                 )
@@ -34,16 +39,6 @@ function Anauthorized({children, ...rest}) {
     );
 }
 
-function AlertAnauthorized() {
-    return(
-        <Content className="content-layout">
-        <Alert message="Authorization denied" type="error" description={
-            <Button style={{marginTop:10}} danger>
-                <Link to="/login">Login</Link>
-            </Button>} showIcon />
-        </Content>
-    )
-}
 
 
 export default Anauthorized;

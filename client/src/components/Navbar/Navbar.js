@@ -1,41 +1,34 @@
 import React, {useEffect, useState} from 'react';
-import {Layout, Menu, Typography} from 'antd';
+import {Layout, Menu, Button, Avatar} from 'antd';
 import './navbar.css';
 import {useLocation, Link} from "react-router-dom";
-import {useSelector,useDispatch} from "react-redux";
-import {LOAD_USER_REQUEST} from "../../redux/types/auth.type";
-import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import {useSelector, useDispatch} from "react-redux";
+import {LOAD_USER_REQUEST, LOGOUT_REQUEST} from "../../redux/types/auth.type";
+import {UserOutlined, LogoutOutlined, MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons';
 
 
 const {Header} = Layout;
-const { SubMenu } = Menu;
-const { Text } = Typography;
+const {SubMenu} = Menu;
 
 
+function Navbar() {
 
-function Navbar () {
-
-    const [visible, setVisible] = useState('');
-    const location = useLocation();
     const dispatch = useDispatch();
     const action = (type) => dispatch({type});
+    const [visible, setVisible] = useState('');
+    const location = useLocation();
 
-    const authReducer = useSelector(({authReducer}) => authReducer);
-    const isAuthenticated = authReducer.isAuthenticated;
-    const userData = authReducer.userData;
 
     useEffect(() => {
 
-
-        if (location.pathname === '/login' || location.pathname === '/register') {
+        if (location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/auth-error') {
             setVisible('hidden');
         } else {
             setVisible('visibility');
             action(LOAD_USER_REQUEST);
         }
 
-
-    },[location]);
+    }, [location]);
 
     // useEffect(() => {
     //
@@ -47,7 +40,7 @@ function Navbar () {
 
     return (
         <div>
-            {visible === 'visibility' ? <ShowNavBar/> : null }
+            {visible === 'visibility' ? <ShowNavBar/> : null}
         </div>
 
 
@@ -59,38 +52,55 @@ function ShowNavBar() {
     const authReducer = useSelector(({authReducer}) => authReducer);
     const userData = authReducer.userData;
 
+    function logout() {
+        localStorage.clear();
+        window.location.reload();
+    }
 
     return (
         <Header style={{padding: 0}}>
             <div className="logo-layout">
-
+                <div className="desktop-logo">
                 <Link to="/">
-                <h1 style={{margin:0}}><img style={{height: '31px'}} src={process.env.PUBLIC_URL + '/images/to-do-list.svg'} alt="logo"/>
-                <span style={{margin:'0 40px 0 10px'}}>Todo-List</span></h1>
+                    <h1  style={{margin: 0}}><img style={{height: '31px'}}
+                                                 src={process.env.PUBLIC_URL + '/images/to-do-list.svg'} alt="logo"/>
+                        <span style={{margin: '0 40px 0 10px'}}>Todo-List</span></h1>
                 </Link>
+                </div>
+
 
             </div>
 
 
+            <div className="mobile-logo">
 
-            <Menu  theme="light" mode="horizontal" defaultSelectedKeys={['2']}>
-
-                <Menu.Item key="1">nav 1</Menu.Item>
-                <Menu.Item key="2">nav 2</Menu.Item>
-                <Menu.Item key="3">nav 3</Menu.Item>
-
+                <div className="logo-center">
+                <Link to="/">
+                    <h1  style={{margin: 0}}><img style={{height: '31px'}}
+                                                  src={process.env.PUBLIC_URL + '/images/to-do-list.svg'} alt="logo"/>
+                        <span style={{margin: '0 40px 0 10px'}}>Todo-List</span></h1>
+                </Link>
+                </div>
 
                 {userData ?
-                    <SubMenu style={{float:'right',marginRight:20}} icon={<UserOutlined />}  title={ userData.name}>
-                    <Menu.Item key="1" icon={<LogoutOutlined />}>Logout</Menu.Item>
-                </SubMenu> :
-                    <span style={{float:'right',marginRight:20}}><Text type="danger">Anauthorized</Text></span>
+                    <div className="avatar">
+                    <Avatar icon={<UserOutlined />}/>
+                    </div>: null
+
                 }
 
+            </div>
 
 
+            <Menu className="desktop-menu" theme="light" mode="horizontal" defaultSelectedKeys={['2']}>
+                {userData ?
+                    <SubMenu  style={{float: 'right', marginRight: 20}} icon={<UserOutlined/>} title={userData.name}>
+                        <Menu.Item key="1" icon={<LogoutOutlined/>} onClick={() => logout()}>Logout</Menu.Item>
 
+                    </SubMenu> : null
+                }
             </Menu>
+
 
 
         </Header>

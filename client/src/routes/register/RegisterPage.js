@@ -12,7 +12,7 @@ import {
 import './register.css';
 import {Link, useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {CLEAR_REGISTER_REQUEST, REGISTER_REQUEST} from "../../redux/types/register.type";
+import {REGISTER_REQUEST} from "../../redux/types/register.type";
 
 const {Content} = Layout;
 
@@ -54,9 +54,12 @@ function RegisterPage() {
 
     useEffect(()=>{
         if(isRegistered === true){
-            history.push("/");
+            setTimeout(()=>{
+                history.push("/");
+            },1000)
+
         }
-    },[isRegistered,history]);
+    },[isRegistered]);
 
     const onSubmit = values => {
         action(REGISTER_REQUEST,values);
@@ -70,6 +73,10 @@ function RegisterPage() {
 
             <div style={{display: 'flex', flexDirection: 'column', width: '550px'}}>
 
+                {isRegistered === true ?
+                    <Alert message="Register success" type="success" showIcon/> : null
+
+                }
 
                 {isRegistered === false ?
                     <Alert message="Username is already exist" type="error" showIcon /> : null

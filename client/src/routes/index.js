@@ -16,6 +16,7 @@ import RegisterPage from "../routes/register/RegisterPage";
 import PrivateRoute from "../components/Auth/PrivateRoute";
 import Anauthorized from "../components/Auth/Anauthorized";
 import {useSelector} from "react-redux";
+import AuthErrorPage from "./auth-error/AuthErrorPage";
 
 function Index() {
 
@@ -35,6 +36,9 @@ function Index() {
                     </Route>
                     <Route exact path="/register">
                         <RegisterPage/>
+                    </Route>
+                    <Route exact path="/auth-error">
+                        <AuthErrorPage/>
                     </Route>
                 </Switch>
                 <Footer/>

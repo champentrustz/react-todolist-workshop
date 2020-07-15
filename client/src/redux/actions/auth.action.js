@@ -4,7 +4,7 @@ import {LOAD_USER_ERROR, LOAD_USER_SUCCESS, LOADING_USER} from "../types/auth.ty
 const axios = require('axios');
 
 
-export function* loadingUser({payload}) {
+export function* loadingUser() {
 
     const token = yield localStorage.getItem('token');
     const url = 'http://localhost:5000/api/user';
@@ -29,5 +29,6 @@ export function* loadingUser({payload}) {
             })
         }
     }
+
 
 }

@@ -5,3 +5,31 @@
     margin: 16px 24px 16px 0;
     float: left;
 }
+
+.flex-container {
+    display: flex;
+    background-color: DodgerBlue;
+}
+
+.side-menu{
+    background-color: #f1f1f1;
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+}
+
+.content-todo{
+    flex-grow: 1;
+    background-color: #f1f1f1;
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+}
+
+@media (max-width: 767px) {
+    .side-menu{
+        display: none !important;
+
+    }
+
+}

@@ -27,7 +27,7 @@ function LoginPage() {
         if(isLogin === true){
             history.push("/");
         }
-    },[isLogin,history]);
+    },[isLogin]);
 
 
     return (

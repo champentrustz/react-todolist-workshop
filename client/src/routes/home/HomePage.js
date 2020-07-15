@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
-import {Card, Layout, Row, Col, Alert, Button} from "antd";
+import {Card, Layout, Row, Col, Alert, Button,Typography} from "antd";
 import './home.css';
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 
 const {Content} = Layout;
+const {Title} = Typography;
 
 function HomePage() {
 
@@ -31,16 +32,24 @@ function HomePage() {
     return (
         <Content className="content-layout">
 
-             <Row gutter={[0,16]}>
-                {data.map((item,index) =>
-                    <Col xs={24} sm={24} md={24} xl={24} key={index}>
-                        <Card title="Card title" bordered={false}>
-                            test
-                        </Card>
 
-                    </Col>
-                )}
-            </Row>
+
+            <div className="flex-container">
+                <div className="side-menu">Side-bar</div>
+                <div className="content-todo"> <Title level={3}>Todo-Home</Title></div>
+
+            </div>
+
+            {/* <Row gutter={[0,16]}>*/}
+            {/*    {data.map((item,index) =>*/}
+            {/*        <Col xs={24} sm={24} md={24} xl={24} key={index}>*/}
+            {/*            <Card title="Card title" bordered={false}>*/}
+            {/*                test*/}
+            {/*            </Card>*/}
+
+            {/*        </Col>*/}
+            {/*    )}*/}
+            {/*</Row>*/}
 
 
 

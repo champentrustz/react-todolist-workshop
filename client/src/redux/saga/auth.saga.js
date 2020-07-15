@@ -6,6 +6,7 @@ function* watchLoadUserAction(){
     yield takeEvery(LOAD_USER_REQUEST,loadingUser)
 }
 
+
 export default function* authSaga() {
     yield all([
         call(watchLoadUserAction),
