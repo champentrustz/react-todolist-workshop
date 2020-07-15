@@ -4,34 +4,4 @@
     float: left;
 }
 
-.mobile-logo{
-    display: none !important
-}
 
-.mobile-menu{
-    display: none !important
-}
-
-.logo-center{
-    margin: 0 0 0 20px;
-    flex-grow: 1;
-}
-.avatar{
-    margin: 0 20px 1px 0;
-}
-
-@media (max-width: 767px) {
-    .mobile-logo{
-        display: flex !important;
-        background: #ffffff;
-        box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.01);
-
-    }
-
-    .desktop-logo{
-        display: none;
-    }
-    .desktop-menu{
-        display: none;
-    }
-}

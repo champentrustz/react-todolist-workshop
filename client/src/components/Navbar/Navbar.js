@@ -60,39 +60,15 @@ function ShowNavBar() {
     return (
         <Header style={{padding: 0}}>
             <div className="logo-layout">
-                <div className="desktop-logo">
                 <Link to="/">
                     <h1  style={{margin: 0}}><img style={{height: '31px'}}
                                                  src={process.env.PUBLIC_URL + '/images/to-do-list.svg'} alt="logo"/>
                         <span style={{margin: '0 40px 0 10px'}}>Todo-List</span></h1>
                 </Link>
-                </div>
-
-
             </div>
 
 
-            <div className="mobile-logo">
-
-                <div className="logo-center">
-                <Link to="/">
-                    <h1  style={{margin: 0}}><img style={{height: '31px'}}
-                                                  src={process.env.PUBLIC_URL + '/images/to-do-list.svg'} alt="logo"/>
-                        <span style={{margin: '0 40px 0 10px'}}>Todo-List</span></h1>
-                </Link>
-                </div>
-
-                {userData ?
-                    <div className="avatar">
-                    <Avatar icon={<UserOutlined />}/>
-                    </div>: null
-
-                }
-
-            </div>
-
-
-            <Menu className="desktop-menu" theme="light" mode="horizontal" defaultSelectedKeys={['2']}>
+            <Menu theme="light" mode="horizontal">
                 {userData ?
                     <SubMenu  style={{float: 'right', marginRight: 20}} icon={<UserOutlined/>} title={userData.name}>
                         <Menu.Item key="1" icon={<LogoutOutlined/>} onClick={() => logout()}>Logout</Menu.Item>
@@ -100,6 +76,7 @@ function ShowNavBar() {
                     </SubMenu> : null
                 }
             </Menu>
+
 
 
 
