@@ -105,8 +105,8 @@ function LoginPage() {
 
 
             {/*<Row gutter={[0,16]}>*/}
-            {/*    {data.map((item,index) =>*/}
-            {/*            <Col xs={24} sm={24} md={24} xl={24} key={index}>*/}
+            {/*    {data.map((item,inbox) =>*/}
+            {/*            <Col xs={24} sm={24} md={24} xl={24} key={inbox}>*/}
             {/*                <Card title="Card title" bordered={false}>*/}
             {/*                    test*/}
             {/*                </Card>*/}

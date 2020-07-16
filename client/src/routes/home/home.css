@@ -1,35 +1,12 @@
-.logo {
-    width: 120px;
-    height: 31px;
-    background: rgba(255, 255, 255, 0.2);
-    margin: 16px 24px 16px 0;
-    float: left;
+.site-layout-background {
+    background: #fff;
 }
 
-.flex-container {
+.flex-container{
     display: flex;
-    background-color: DodgerBlue;
+    align-items: center;
 }
 
-.side-menu{
-    background-color: #f1f1f1;
-    margin: 10px;
-    padding: 20px;
-    font-size: 30px;
-}
-
-.content-todo{
-    flex-grow: 1;
-    background-color: #f1f1f1;
-    margin: 10px;
-    padding: 20px;
-    font-size: 30px;
-}
-
-@media (max-width: 767px) {
-    .side-menu{
-        display: none !important;
-
-    }
-
+.show-date{
+    font-size: 11px;
 }
