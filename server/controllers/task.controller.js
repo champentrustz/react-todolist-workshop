@@ -18,8 +18,12 @@ function addTask(req, res) {
                 project.save()
                     .then(project =>{
                         return res.status(200).json({project});
-                    })
-            })
+                    }).catch(err => {
+                    return res.status(400).json({error : err});
+                })
+            }).catch(err =>{
+                return res.status(400).json({error : err});
+        })
     })
 }
 
