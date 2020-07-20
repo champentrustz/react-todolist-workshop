@@ -3,12 +3,13 @@ const Project = require('../models/project.model');
 
 function addTask(req, res) {
     const projectID = req.body.projectID;
+    const userID = req.body.userID;
     const name = req.body.name;
     const time = req.body.time;
     const date = req.body.date;
     Project.findOne({_id: projectID}).populate('tasks').then(project =>{
         if(!project){
-            return res.status(400).json({msg : 'No project'});
+            return res.status(400).json({msg : 'No projectID'});
         }
 
         const newTask = new Task({name,time,date});

@@ -5,6 +5,6 @@ const TaskController = require('../controllers/task.controller');
 
 const router = express.Router();
 
-router.post('/add-task', auth, TaskController.addTask());
+router.post('/add-task', auth, TaskController.addTask);
 
 module.exports = router;

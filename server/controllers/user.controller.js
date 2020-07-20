@@ -1,5 +1,6 @@
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
+const Project = require('../models/project.model');
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -95,17 +96,22 @@ function register (req, res)  {
 }
 
 function getUserDetails(req, res){
-    const userID = req.body.userID;
-    User.find({_id : userID}).populate('projects')
-        .then(user =>{
+    const userID = req.user.id;
+    User.find({_id : userID}).populate({
+        path : 'projects',
+        populate : {
+            path : 'tasks'
+        }
+    })
+        .exec((err,user) =>{
             if(!user){
                 return res.status(400).json({msg : 'No user'});
             }
-
+            if(err){
+                return res.status(400).json({error : err});
+            }
             return res.json({user});
-        }).catch(err=>{
-            return res.status(400).json({msg : 'No user', error : err});
-    })
+        })
 }
 
 module.exports = {

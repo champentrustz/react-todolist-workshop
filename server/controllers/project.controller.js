@@ -2,7 +2,7 @@ const Project = require('../models/project.model');
 const User = require('../models/user.model');
 
 function addProject(req, res) {
-    const userID = req.body.userID;
+    const userID = req.user.id;
     const name = req.body.name;
     User.findOne({_id: userID}).populate('projects').then(user => {
         if (!user) {
