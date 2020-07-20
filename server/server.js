@@ -4,6 +4,8 @@ const db = require('./database');
 
 const userRouter = require('./routes/user.router');
 const projectRouter = require('./routes/project.router');
+const TaskRouter = require('./routes/task.router');
+
 const app = express();
 const port = process.env.PORT;
 
@@ -17,6 +19,7 @@ db.on('open', () =>{
 
 app.use('/api', userRouter);
 app.use('/api', projectRouter);
+app.use('/api', TaskRouter);
 
 
 
