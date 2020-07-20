@@ -1,6 +1,6 @@
 import { LOGIN_SUCCESS, LOGIN_ERROR} from "../types/login.type";
 import { REGISTER_ERROR, REGISTER_SUCCESS} from "../types/register.type";
-import {LOAD_USER_ERROR, LOAD_USER_SUCCESS} from "../types/auth.type";
+import {LOAD_USER_ERROR, LOAD_USER_SUCCESS, LOAD_USER_TASKS_SUCCESS} from "../types/auth.type";
 
 
 const initialState = {
@@ -9,6 +9,7 @@ const initialState = {
     isRegistered : null,
     isLogin : null,
     userData: null,
+    userTask: null,
 };
 
 
@@ -31,6 +32,8 @@ export default (state = initialState, {type,payload}) => {
             return {...state, isAuthenticated: true, isLogin: true, userData: payload.user, token: payload.token};
         case  LOGIN_ERROR:
             return {...state, isAuthenticated: false, isLogin: false};
+        case LOAD_USER_TASKS_SUCCESS:
+            return {...state, userTask: payload.user}
         default:
             return state;
     }
