@@ -15,13 +15,12 @@ const {SubMenu} = Menu;
 function Sidebar() {
 
     const [visible, setVisible] = useState(false);
-
-
     let {path} = useRouteMatch();
 
-    function onSubmit (values) {
+    const onSubmit = values => {
         console.log(values);
     }
+
 
     return (
 
@@ -36,6 +35,7 @@ function Sidebar() {
                 defaultSelectedKeys={[path]}
                 defaultOpenKeys={['sub1']}
                 style={{height: '100%', borderRight: 0,}}
+                selectedKeys={[path]}
             >
                 <Menu.Item key="/inbox" icon={<MailOutlined/>}><Link to={'/inbox'}>Inbox</Link></Menu.Item>
                 <Menu.Item key="/" icon={<FieldTimeOutlined/>}>

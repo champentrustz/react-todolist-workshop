@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 import {useDispatch, useSelector} from "react-redux";
-import {ADD_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
+import {ADD_TASK_FORM_REQUEST, CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
 
 
-function AddTask() {
+function AddTaskButton() {
 
     const dispatch = useDispatch();
     const action = (type) => dispatch({type});
+
 
     return (
 
@@ -17,4 +18,4 @@ function AddTask() {
     );
 }
 
-export default AddTask;
+export default AddTaskButton;

@@ -1,32 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import {Divider, Layout} from "antd";
-import {Card, Row, Col, Alert, Button,Typography, Breadcrumb} from "antd";
+import {Card, Row, Col, Alert, Button, Typography, Breadcrumb} from "antd";
+import AddTaskButton from "../Task/AddTaskButton";
+import TaskForm from "../Task/TaskForm";
+import {useDispatch, useSelector} from "react-redux";
+import {CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
 
 const {Content} = Layout;
 const {Title, Text} = Typography;
 
 function Inbox() {
 
+    const todoReducer = useSelector(({todoReducer}) => todoReducer);
+    const dispatch = useDispatch();
+    const action = (type) => dispatch({type});
 
-    useEffect(()=>{
-        document.title = 'inbox';
-    },[])
-
-    const d = new Date();
-    const months = ["Jan", "Feb", "Mar", "Apr", "May",
-        "Jun", "Jul", "Aug", "Sep",
-        "Oct", "Nov", "Dec"];
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const month = months[d.getMonth()];
-    const date = d.getDate();
-    const day = days[d.getDay()];
-    const showDate = day +' '+ date + ' '+ month;
+    useEffect(() => {
+        document.title = 'Inbox: Todo-List';
+        action(CANCEL_TASK_FORM_REQUEST);
+    }, []);
 
 
     return (
 
 
-        <Layout style={{ padding: '0 0 0 24px' }}>
+        <Layout style={{marginLeft: 20}}>
             <Content
                 className="site-layout-background"
                 style={{
@@ -35,9 +33,14 @@ function Inbox() {
                 }}
             >
 
-                    <Title  level={4}>Inbox</Title>
+                <Title style={{margin: 0}} level={4}>Inbox</Title>
 
-                <Divider />
+                <Divider/>
+
+                {
+                    todoReducer.isOpenTaskForm === false ? <AddTaskButton/>
+                        : <TaskForm/>
+                }
 
             </Content>
         </Layout>

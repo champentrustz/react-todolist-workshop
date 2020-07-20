@@ -18,8 +18,14 @@ const userSchema = new Schema({
             type: String,
             required: true
         },
+        projects: [
+            {
+                type: mongoose.Schema.Types.ObjectID,
+                ref:'Project'
+            }
+        ]
     },
     {timestamps: true});
 
 
-module.exports = mongoose.model('users', userSchema);
+module.exports = mongoose.model('User', userSchema);
