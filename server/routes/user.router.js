@@ -6,7 +6,8 @@ const UserController = require('../controllers/user.controller');
 const router = express.Router();
 
 router.get('/user', UserController.getUserJWT);
-router.post('/register', UserController.addUser);
-router.post('/login', UserController.getUser);
+router.post('/register', UserController.register);
+router.post('/login', UserController.login);
+router.post('/get-user-details', auth, UserController.getUserDetails);
 
 module.exports = router;

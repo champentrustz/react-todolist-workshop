@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const jwtSecret = process.env.JWT_SECRET;
 
-function getUser (req, res) {
+function login (req, res) {
     const username = req.body.username;
     const password = req.body.password;
     User.findOne({username : username, password : password}).then(user =>{
@@ -51,7 +51,7 @@ function getUserJWT (req, res) {
     }
 }
 
-function addUser (req, res)  {
+function register (req, res)  {
     const username = req.body.username;
     const password = req.body.password;
     const name = req.body.name;
@@ -94,8 +94,23 @@ function addUser (req, res)  {
     })
 }
 
+function getUserDetails(req, res){
+    const userID = req.body.userID;
+    User.find({_id : userID}).populate('projects')
+        .then(user =>{
+            if(!user){
+                return res.status(400).json({msg : 'No user'});
+            }
+
+            return res.json({user});
+        }).catch(err=>{
+            return res.status(400).json({msg : 'No user', error : err});
+    })
+}
+
 module.exports = {
     getUserJWT,
-    addUser,
-    getUser,
+    register,
+    login,
+    getUserDetails,
 }
