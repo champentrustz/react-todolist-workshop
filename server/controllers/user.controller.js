@@ -110,8 +110,7 @@ function getUserDetails(req, res){
         populate : {
             path : 'tasks'
         }
-    })
-        .exec((err,user) =>{
+    }).exec((err,user) =>{
             if(!user){
                 return res.status(400).json({msg : 'No user'});
             }
