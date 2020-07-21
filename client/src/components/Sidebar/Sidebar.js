@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Typography, Form, Input, Layout, Menu, Modal} from 'antd';
+import {Divider, Button, Typography, Form, Input, Layout, Menu, Modal} from 'antd';
 import {MailOutlined, FieldTimeOutlined, PlusOutlined, ProfileOutlined} from '@ant-design/icons';
 import './sidebar.css';
 
@@ -25,7 +25,7 @@ function Sidebar() {
 
     const authReducer = useSelector(({authReducer}) => authReducer);
     const projects = authReducer.userTask && authReducer.userTask[0].projects;
-
+    const [form] = Form.useForm();
 
 
     return (
@@ -68,10 +68,22 @@ function Sidebar() {
                     title="Add project"
                     width={400}
                     visible={visible}
-                    onOk={()=>setVisible(false)}
+                    onOk={() => {
+                        form
+                            .validateFields()
+                            .then(values => {
+                                form.resetFields();
+                                console.log(values);
+                            })
+                            .catch(() => {
+                                console.log('Please input your task!');
+                            });
+                    }}
                     onCancel={()=>setVisible(false)}
+
                 >
                     <Form
+                        form={form}
                         name="todo-form"
                         onFinish={onSubmit}
                         scrollToFirstError
