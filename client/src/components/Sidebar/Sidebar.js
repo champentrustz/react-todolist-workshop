@@ -51,7 +51,7 @@ function Sidebar() {
                 <SubMenu key="sub1" icon={<ProfileOutlined/>} title="Projects">
                     {projects && projects.map((project, index) =>
                         <Menu.Item key={index}>
-                            <Link to={`/project/${project._id}`}><Text type="warning">{project.name}</Text></Link>
+                            <Link to={`/project/${project._id}`}>{project.name}</Link>
                         </Menu.Item>
                     )}
 
