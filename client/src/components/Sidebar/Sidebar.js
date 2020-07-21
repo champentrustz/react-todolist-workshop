@@ -27,6 +27,7 @@ function Sidebar() {
     const projects = authReducer.userTask && authReducer.userTask[0].projects;
 
 
+
     return (
 
         <Sider
@@ -50,6 +51,7 @@ function Sidebar() {
                 </Menu.Item>
                 <SubMenu key="sub1" icon={<ProfileOutlined/>} title="Projects">
                     {projects && projects.map((project, index) =>
+                        project.type === "INITIAL" &&
                         <Menu.Item key={index}>
                             <Link to={`/project/${project._id}`}>{project.name}</Link>
                         </Menu.Item>

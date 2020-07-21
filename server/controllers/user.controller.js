@@ -66,26 +66,30 @@ function register (req, res)  {
             .then(user => {
                 const newProject = new Project({user: user, name: 'Inbox', type: 'INITIAL'})
                 newProject.save()
-                    .then(() =>{
-                        return jwt.sign(
-                            {
-                                id: user.id,
-                                name: user.name,
-                            },
-                            jwtSecret,
-                            {expiresIn: 3600},
-                            (err, token) => {
-                                if (err) throw err;
-                                res.json({
-                                    success: true,
-                                    token: token,
-                                    user: {
-                                        id: user.id,
-                                        name: user.name
+                    .then((project) =>{
+                        user.projects.push(project);
+                        user.save()
+                            .then((newUser) => {
+                                return jwt.sign(
+                                    {
+                                        id: newUser.id,
+                                        name: newUser.name,
+                                    },
+                                    jwtSecret,
+                                    {expiresIn: 3600},
+                                    (err, token) => {
+                                        if (err) throw err;
+                                        res.json({
+                                            success: true,
+                                            token: token,
+                                            user: {
+                                                id: newUser.id,
+                                                name: newUser.name
+                                            }
+                                        })
                                     }
-                                })
-                            }
-                        )
+                                )
+                            })
                 })
             })
             .catch(err => {
