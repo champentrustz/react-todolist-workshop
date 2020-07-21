@@ -64,25 +64,29 @@ function register (req, res)  {
         const newUser = new User({username, password, name});
         newUser.save()
             .then(user => {
-                return jwt.sign(
-                    {
-                        id: user.id,
-                        name: user.name,
-                    },
-                    jwtSecret,
-                    {expiresIn: 3600},
-                    (err, token) => {
-                        if (err) throw err;
-                        res.json({
-                            success: true,
-                            token: token,
-                            user: {
+                const newProject = new Project({user: user, name: 'Inbox', type: 'INITIAL'})
+                newProject.save()
+                    .then(() =>{
+                        return jwt.sign(
+                            {
                                 id: user.id,
-                                name: user.name
+                                name: user.name,
+                            },
+                            jwtSecret,
+                            {expiresIn: 3600},
+                            (err, token) => {
+                                if (err) throw err;
+                                res.json({
+                                    success: true,
+                                    token: token,
+                                    user: {
+                                        id: user.id,
+                                        name: user.name
+                                    }
+                                })
                             }
-                        })
-                    }
-                )
+                        )
+                })
             })
             .catch(err => {
                 return res.status(400).json({

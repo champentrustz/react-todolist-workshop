@@ -11,10 +11,15 @@ const projectSchema = new Schema({
             type: String,
             required: true
         },
-        tasks:[{
+        tasks: [{
             type: mongoose.Schema.Types.ObjectID,
             ref: 'Task'
-        }]
+        }],
+        type: {
+            type: String,
+            enum: ['INITIAL','PROJECT'],
+            required: true
+        }
     },
     {timestamps: true});
 

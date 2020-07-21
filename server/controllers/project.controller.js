@@ -4,11 +4,12 @@ const User = require('../models/user.model');
 function addProject(req, res) {
     const userID = req.user.id;
     const name = req.body.name;
+    const type = req.body.type;
     User.findOne({_id: userID}).populate('projects').then(user => {
         if (!user) {
             return res.status(401).json({msg: 'No user'});
         }
-        const newProject = new Project({user: userID, name: name})
+        const newProject = new Project({user: userID, name: name, type: type})
         newProject.save()
             .then(project => {
                 user.projects.push(project);
