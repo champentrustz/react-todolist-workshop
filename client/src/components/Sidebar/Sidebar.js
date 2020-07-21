@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Card, DatePicker, Form, Input, Layout, Menu, Modal} from 'antd';
+import { Typography, Form, Input, Layout, Menu, Modal} from 'antd';
 import {MailOutlined, FieldTimeOutlined, PlusOutlined, ProfileOutlined} from '@ant-design/icons';
 import './sidebar.css';
 
@@ -8,9 +8,11 @@ import {
     useRouteMatch
 } from "react-router-dom";
 import {CANCEL_TASK_FORM_REQUEST} from "../../redux/types/todo.type";
+import {useSelector} from "react-redux";
 
 const {Sider} = Layout;
 const {SubMenu} = Menu;
+const {Text} = Typography;
 
 function Sidebar() {
 
@@ -20,6 +22,9 @@ function Sidebar() {
     const onSubmit = values => {
         console.log(values);
     }
+
+    const authReducer = useSelector(({authReducer}) => authReducer);
+    const projects = authReducer.userTask && authReducer.userTask[0].projects;
 
 
     return (
@@ -44,6 +49,12 @@ function Sidebar() {
 
                 </Menu.Item>
                 <SubMenu key="sub1" icon={<ProfileOutlined/>} title="Projects">
+                    {projects && projects.map((project, index) =>
+                        <Menu.Item key={index}>
+                            <Link to={`/project/${project._id}`}><Text type="warning">{project.name}</Text></Link>
+                        </Menu.Item>
+                    )}
+
                     <Menu.Item key="4" icon={<PlusOutlined/>} onClick={()=>setVisible(true)}>Add Project
 
                     </Menu.Item>

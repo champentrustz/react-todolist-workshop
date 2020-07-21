@@ -36,6 +36,11 @@ function Index() {
                             <HomePage/>
                         </Anauthorized>
                     </PrivateRoute>
+                    <PrivateRoute exact path="/project/:id">
+                        <Anauthorized exact path="/project/:id">
+                            <HomePage/>
+                        </Anauthorized>
+                    </PrivateRoute>
                     <Route exact path="/login">
                         <LoginPage/>
                     </Route>
