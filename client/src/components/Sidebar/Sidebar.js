@@ -7,8 +7,8 @@ import {
     Link,
     useRouteMatch
 } from "react-router-dom";
-import {CANCEL_TASK_FORM_REQUEST} from "../../redux/types/todo.type";
-import {useSelector} from "react-redux";
+import {ADD_PROJECT_REQUEST, CANCEL_TASK_FORM_REQUEST} from "../../redux/types/todo.type";
+import {useDispatch, useSelector} from "react-redux";
 
 const {Sider} = Layout;
 const {SubMenu} = Menu;
@@ -18,13 +18,12 @@ function Sidebar() {
 
     const [visible, setVisible] = useState(false);
     let {path} = useRouteMatch();
+    const dispatch = useDispatch();
+    const action = (type,payload) => dispatch({type,payload});
 
-    const onSubmit = values => {
-        console.log(values);
-    }
 
     const authReducer = useSelector(({authReducer}) => authReducer);
-    const projects = authReducer.userTask && authReducer.userTask[0].projects;
+    const projects = authReducer.userTask && authReducer.userTask.projects;
     const [form] = Form.useForm();
 
 
@@ -73,7 +72,8 @@ function Sidebar() {
                             .validateFields()
                             .then(values => {
                                 form.resetFields();
-                                console.log(values);
+                                action(ADD_PROJECT_REQUEST,values);
+                                setVisible(false);
                             })
                             .catch(() => {
                                 console.log('Please input your task!');
@@ -85,7 +85,6 @@ function Sidebar() {
                     <Form
                         form={form}
                         name="todo-form"
-                        onFinish={onSubmit}
                         scrollToFirstError
                     >
                             <Form.Item

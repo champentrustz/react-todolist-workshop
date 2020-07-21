@@ -20,6 +20,7 @@ export function* loadingUserTask() {
                 },
             })
 
+
             yield put({
                 type : LOAD_USER_TASKS_SUCCESS,
                 payload : response.data
@@ -46,6 +47,7 @@ export function* loadingUser() {
                     'x-auth-token': token
                 },
             })
+
 
             yield put({
                 type : LOAD_USER_SUCCESS,

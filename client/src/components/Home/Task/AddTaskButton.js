@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Button} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 import {useDispatch, useSelector} from "react-redux";
-import {ADD_TASK_FORM_REQUEST, CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
+import {OPEN_TASK_FORM_REQUEST, CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
 
 
 function AddTaskButton() {
@@ -13,7 +13,7 @@ function AddTaskButton() {
 
     return (
 
-        <Button onClick={()=>action(ADD_TASK_FORM_REQUEST)} icon={<PlusOutlined/>} >Add task</Button>
+        <Button onClick={()=>action(OPEN_TASK_FORM_REQUEST)} icon={<PlusOutlined/>} >Add task</Button>
 
     );
 }

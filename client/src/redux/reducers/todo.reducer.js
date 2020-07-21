@@ -2,6 +2,7 @@ import {CANCELED_TASK_FORM, OPEN_TASK_FORM} from "../types/todo.type";
 
 const initialState = {
     isOpenTaskForm : false,
+    modalVisible: false,
 };
 
 export default (state = initialState, {type,payload}) =>{
