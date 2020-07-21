@@ -69,11 +69,11 @@ function register (req, res)  {
                     .then((project) =>{
                         user.projects.push(project);
                         user.save()
-                            .then((newUser) => {
+                            .then((user) => {
                                 return jwt.sign(
                                     {
-                                        id: newUser.id,
-                                        name: newUser.name,
+                                        id: user.id,
+                                        name: user.name,
                                     },
                                     jwtSecret,
                                     {expiresIn: 3600},
@@ -83,8 +83,8 @@ function register (req, res)  {
                                             success: true,
                                             token: token,
                                             user: {
-                                                id: newUser.id,
-                                                name: newUser.name
+                                                id: user.id,
+                                                name: user.name
                                             }
                                         })
                                     }
