@@ -105,7 +105,7 @@ function register (req, res)  {
 
 function getUserDetails(req, res){
     const userID = req.user.id;
-    User.find({_id : userID},'name').populate({
+    User.findOne({_id : userID},'name').populate({
         path : 'projects',
         populate : {
             path : 'tasks'

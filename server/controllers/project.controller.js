@@ -15,7 +15,7 @@ function addProject(req, res) {
                 user.projects.push(project);
                 user.save()
                     .then(user => {
-                        return res.json(user);
+                        return res.json({user});
                     })
             }).catch(err => {
             return res.status(400).json({success: false, error: err});
