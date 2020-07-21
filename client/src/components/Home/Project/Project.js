@@ -10,7 +10,7 @@ function Project() {
 
     const authReducer = useSelector(({authReducer}) => authReducer);
     const project = authReducer.userTask &&
-        authReducer.userTask[0].projects.filter(project => project._id === id);
+        authReducer.userTask.projects.filter(project => project._id === id);
     const tasks = project && project[0].tasks;
 
 

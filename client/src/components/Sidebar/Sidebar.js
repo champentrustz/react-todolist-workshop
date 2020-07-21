@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Divider, Button, Typography, Form, Input, Layout, Menu, Modal} from 'antd';
-import {MailOutlined, FieldTimeOutlined, PlusOutlined, ProfileOutlined} from '@ant-design/icons';
+import {Badge, Button, Typography, Form, Input, Layout, Menu, Modal} from 'antd';
+import {MailOutlined, FieldTimeOutlined, PlusOutlined, ProfileOutlined, CloseOutlined, EditOutlined} from '@ant-design/icons';
 import './sidebar.css';
 
 import {
@@ -51,12 +51,14 @@ function Sidebar() {
                 <SubMenu key="sub1" icon={<ProfileOutlined/>} title="Projects">
                     {projects && projects.map((project, index) =>
                         project.type !== "INITIAL" &&
-                        <Menu.Item key={index}>
-                            <Link to={`/project/${project._id}`}>{project.name}</Link>
+                        <Menu.Item key={index} className="flex-menu-container">
+                            <Link className="show-project" to={`/project/${project._id}`}>{project.name}</Link>
+                            <Button className="button-delete"   icon={<CloseOutlined style={{margin:0}}/>}/>
+                            <Button className="button-edit"  icon={<EditOutlined style={{margin:0}}/>}/>
                         </Menu.Item>
                     )}
 
-                    <Menu.Item key="4" icon={<PlusOutlined/>} onClick={()=>setVisible(true)}>Add Project
+                    <Menu.Item key="4" onClick={()=>setVisible(true)}><Button icon={<PlusOutlined/>}>Add Project</Button>
 
                     </Menu.Item>
                 </SubMenu>

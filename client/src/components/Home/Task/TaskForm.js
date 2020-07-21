@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Input, Button, Card, DatePicker, Select} from 'antd';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
 import moment from 'moment';
 
@@ -15,8 +15,13 @@ function TaskForm(props) {
     const {defaultPickTime} = props;
     const dispatch = useDispatch();
     const action = (type) => dispatch({type});
+    const authReducer = useSelector(({authReducer})=>authReducer)
     const [dateTime,setDateTime] = useState(defaultPickDate+' '+defaultPickTime);
-    const [project,setProject] = useState('Inbox');
+
+    const projects = authReducer.userTask && authReducer.userTask.projects;
+
+    const initialProjctSelected = projects && projects.filter(project=> project.type === 'INITIAL');
+    const [project,setProject] = useState(initialProjctSelected[0]._id);
 
 
     const onSubmit = values => {
@@ -68,9 +73,13 @@ function TaskForm(props) {
                     }
 
 
-                    <Select defaultValue="Inbox" style={{width: 120, marginLeft: 10}} onChange={(value)=>setProject(value)}>
-                        <Option value="Inbox">Inbox</Option>
-                        <Option value="lucy">Lucy</Option>
+                    <Select defaultValue={initialProjctSelected[0].name} style={{width: 120, marginLeft: 10}} onChange={(value)=>setProject(value)}>
+                        {projects && projects.map((project,index)=>
+                            <Option key={index} value={project._id}>
+                                {project.name}
+                            </Option>
+                        )}
+
                        </Select>
                 </Form.Item>
 
