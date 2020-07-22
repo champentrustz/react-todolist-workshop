@@ -25,7 +25,17 @@ function addProject(req, res) {
     })
 }
 
+function updateProject(req, res){
+    const projectID = req.body.id;
+    const name = req.body.name
+    Project.findOneAndUpdate({_id: projectID},{$set:{name:name}}, {
+        new:true
+    }).then(project => {
+        return res.status(200).json({project})
+        })
+}
 
 module.exports = {
     addProject,
+    updateProject
 }
