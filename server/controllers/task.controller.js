@@ -1,5 +1,6 @@
 const Task = require('../models/task.model');
 const Project = require('../models/project.model');
+const User = require('../models/user.model');
 
 function addTask(req, res) {
     const projectID = req.body.projectID;
@@ -7,24 +8,40 @@ function addTask(req, res) {
     const name = req.body.name;
     const time = req.body.time;
     const date = req.body.date;
-    Project.findOne({_id: projectID}).populate('tasks').then(project =>{
+    Project.findOne({_id: projectID}).exec((err,project) =>{
         if(!project){
             return res.status(400).json({msg : 'No projectID'});
         }
 
+        if(err){
+            return res.status(400).json({err});
+        }
+
         const newTask = new Task({name,time,date});
         newTask.save()
-            .then(task =>{
+            .then((task) =>{
                 project.tasks.push(task);
                 project.save()
-                    .then(project =>{
-                        return res.status(200).json({project});
-                    }).catch(err => {
-                    return res.status(400).json({error : err});
+                    .then(() => {
+
+                        const userID = req.user.id;
+                        User.findOne({_id : userID},'name').populate({
+                            path : 'projects',
+                            populate : {
+                                path : 'tasks'
+                            }
+                        }).exec((err,user) =>{
+                            if(err){
+                                return res.status(400).json({error : err});
+                            }
+                            return res.status(200).json({user});
+                        })
+
+
+                    }).catch(err =>{
+                        return res.status(400).json({error : err});
                 })
-            }).catch(err =>{
-                return res.status(400).json({error : err});
-        })
+            })
     })
 }
 
