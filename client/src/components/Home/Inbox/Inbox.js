@@ -16,7 +16,7 @@ function Inbox() {
     const action = (type) => dispatch({type});
 
     useEffect(() => {
-        document.title = 'Inbox: Todo-List';
+        document.title = 'Inbox : Todo-List';
         action(CANCEL_TASK_FORM_REQUEST);
     }, []);
 

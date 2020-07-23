@@ -7,7 +7,12 @@ import {
     Link,
     useRouteMatch
 } from "react-router-dom";
-import {ADD_PROJECT_REQUEST, CANCEL_TASK_FORM_REQUEST, EDIT_PROJECT_REQUEST} from "../../redux/types/todo.type";
+import {
+    ADD_PROJECT_REQUEST,
+    CANCEL_TASK_FORM_REQUEST,
+    DELETE_PROJECT_REQUEST,
+    EDIT_PROJECT_REQUEST
+} from "../../redux/types/todo.type";
 import {useDispatch, useSelector} from "react-redux";
 
 const {Sider} = Layout;
@@ -26,9 +31,13 @@ function Sidebar() {
 
     const authReducer = useSelector(({authReducer}) => authReducer);
     const projects = authReducer.userTask && authReducer.userTask.projects;
-    const [form] = Form.useForm();
+    const [formAdd] = Form.useForm();
+    const [formEdit] = Form.useForm();
 
-    console.log()
+
+    useEffect(()=>{
+        formEdit.setFieldsValue({project : editProjectModalVisible.project.name})
+    },[editProjectModalVisible])
 
 
     return (
@@ -57,7 +66,7 @@ function Sidebar() {
                         project.type !== "INITIAL" &&
                         <Menu.Item key={index} className="flex-menu-container">
                             <Link className="show-project" to={`/project/${project._id}`}>{project.name}</Link>
-                            <Button className="button-delete"   icon={<CloseOutlined style={{margin:0}}/>}/>
+                            <Button onClick={()=>action(DELETE_PROJECT_REQUEST,project._id)} className="button-delete"   icon={<CloseOutlined style={{margin:0}}/>}/>
                             <Button onClick={()=>setEditProjectModalVisible({...initialEditProject, visible: true,project: project})} className="button-edit"  icon={<EditOutlined style={{margin:0}}/>}/>
                         </Menu.Item>
                     )}
@@ -70,27 +79,29 @@ function Sidebar() {
 
 
                 <Modal
-                    name="Add project modal"
+                    name="add-project-modal"
                     title="Add project"
                     width={400}
+                    forceRender
                     visible={addProjectModalVisible}
                     onOk={() => {
-                        form
+                        formAdd
                             .validateFields()
                             .then(values => {
-                                form.resetFields();
                                 action(ADD_PROJECT_REQUEST,values);
+                                formAdd.resetFields();
                                 setAddProjectModalVisible(false);
                             })
                             .catch(() => {
                                 console.log('Please input your task!');
                             });
                     }}
-                    onCancel={()=>setAddProjectModalVisible(false)}
+                    onCancel={()=>{
+                        setAddProjectModalVisible(false)}}
 
                 >
                     <Form
-                        form={form}
+                        form={formAdd}
                         name="add-project-form"
                         scrollToFirstError
                     >
@@ -111,12 +122,13 @@ function Sidebar() {
                 </Modal>
 
                 <Modal
-                    name="Edit project modal"
+                    name="edit-project-modal"
                     title="Edit project"
                     width={400}
+                    forceRender
                     visible={editProjectModalVisible.visible}
                     onOk={() => {
-                        form
+                        formEdit
                             .validateFields()
                             .then(values => {
                                 action(EDIT_PROJECT_REQUEST, {
@@ -129,11 +141,13 @@ function Sidebar() {
                                 console.log('Please input your task!');
                             });
                     }}
-                    onCancel={()=>setEditProjectModalVisible({...initialEditProject,visible:false})}
+                    onCancel={()=>{
+                        setEditProjectModalVisible({...initialEditProject,visible:false})
+                    }}
 
                 >
                     <Form
-                        form={form}
+                        form={formEdit}
                         initialValues={{ project: editProjectModalVisible.project.name}}
                         name="edit-project-form"
                         scrollToFirstError

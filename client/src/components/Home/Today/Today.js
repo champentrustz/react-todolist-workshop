@@ -16,8 +16,9 @@ function Today() {
     const action = (type) => dispatch({type});
 
     useEffect(()=>{
-        document.title = 'Today: Todo-List';
+        document.title = 'Today : Todo-List';
         action(CANCEL_TASK_FORM_REQUEST);
+
         },[])
 
     const d = new Date();

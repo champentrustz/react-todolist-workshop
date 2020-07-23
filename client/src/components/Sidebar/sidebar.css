@@ -10,6 +10,7 @@
     width: 20px;
     height: 20px;
     margin-left: 10px;
+    flex-grow: 1;
 }
 
 .button-edit{
@@ -19,9 +20,10 @@
     width: 20px;
     height: 20px;
     margin-left: 10px;
+    flex-grow: 1;
 }
 
 .show-project{
     display: flex;
-    align-items: start;
+    flex-grow: 12;
 }

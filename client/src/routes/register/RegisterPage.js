@@ -59,6 +59,9 @@ function RegisterPage() {
             },1000)
 
         }
+
+        document.title = 'Register : Todo-List';
+
     },[isRegistered]);
 
     const onSubmit = values => {
