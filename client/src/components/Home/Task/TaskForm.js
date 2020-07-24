@@ -45,7 +45,6 @@ function TaskForm(props) {
             name="todo-form"
             onFinish={onSubmit}
             scrollToFirstError
-            initialValues={{project : defaultSelected ? defaultSelected : initialProjctSelected[0].name}}
         >
             <Card>
                 <Form.Item
@@ -61,16 +60,6 @@ function TaskForm(props) {
                     <Input.TextArea/>
                 </Form.Item>
 
-                <Form.Item
-                    name="date-time"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your date time!',
-                        }
-                    ]}
-                    style={{ display: 'inline-block' }}
-                >
 
                     {defaultPickDate ? <DatePicker
                             showTime={{ format: 'HH:mm' }}
@@ -85,18 +74,8 @@ function TaskForm(props) {
                         />
                     }
 
-                </Form.Item>
-                <Form.Item
-                    name="project"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please select your project!',
-                        }
-                    ]}
-                    style={{ display: 'inline-block' }}
-                >
-                    <Select style={{width: 120, marginLeft: 10}} onChange={(value)=>setProject(value)}>
+
+                    <Select defaultValue={defaultSelected ? defaultSelected : initialProjctSelected[0].name} style={{width: 120, marginLeft: 10}} onChange={(value)=>setProject(value)}>
                         {projects && projects.map((project,index)=>
                             <Option key={index} value={project._id}>
                                 {project.name}
@@ -104,7 +83,7 @@ function TaskForm(props) {
                         )}
 
                        </Select>
-                </Form.Item>
+
 
 
             </Card>
