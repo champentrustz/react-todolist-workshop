@@ -12,8 +12,6 @@ export default (state = initialState, {type,payload}) =>{
             return {...state, isOpenTaskForm: true};
         case CANCELED_TASK_FORM :
             return {...state, isOpenTaskForm: false};
-        case ADD_TASK_SUCCESS :
-            return {...state, addTaskSuccess: true}
         default :
             return state;
     }

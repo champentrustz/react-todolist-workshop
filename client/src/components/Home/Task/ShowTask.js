@@ -4,16 +4,17 @@ import './index.css';
 import {
     Link,
 } from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 
 const {Text} = Typography;
 
 function ShowTask(props) {
 
+    const dispatch = useDispatch();
+    const action = (type) => dispatch({type});
 
     return (
-
-
     props.project &&
         <List
 
@@ -30,7 +31,7 @@ function ShowTask(props) {
                                     <Tag >
                                         <Link className="show-project" to={`/project/${project._id}`}>#{project.name}</Link>
                                     </Tag>,
-                                    <a>edit</a>,
+                                    <a onClick={()=> action}>edit</a>,
                                     <a><Text type="danger">delete</Text></a>,
                                 ]}
                             >
