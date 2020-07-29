@@ -1,4 +1,4 @@
-import {ADD_TASK_SUCCESS, CANCELED_TASK_FORM, OPEN_TASK_FORM} from "../types/todo.type";
+import {CANCELED_TASK_FORM, OPEN_TASK_FORM} from "../types/todo.type";
 
 const initialState = {
     isOpenTaskForm : false,
