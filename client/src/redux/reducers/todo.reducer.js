@@ -3,7 +3,6 @@ import {ADD_TASK_SUCCESS, CANCELED_TASK_FORM, OPEN_TASK_FORM} from "../types/tod
 const initialState = {
     isOpenTaskForm : false,
     modalVisible: false,
-    addTaskSuccess : null,
 };
 
 export default (state = initialState, {type,payload}) =>{
