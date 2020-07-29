@@ -1,10 +1,13 @@
 import React, {useEffect} from 'react';
-import {Divider, Layout} from "antd";
-import {Card, Row, Col, Alert, Button,Typography, Breadcrumb} from "antd";
+import {Divider, Layout, List, Menu} from "antd";
+import {Card, Row, Col, Alert, Button,Typography, Breadcrumb, Tag} from "antd";
 import AddTaskButton from "../Task/AddTaskButton";
 import {useDispatch, useSelector} from "react-redux";
 import TaskForm from "../Task/TaskForm";
-import {CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
+import {CANCEL_TASK_FORM_REQUEST, DELETE_PROJECT_REQUEST} from "../../../redux/types/todo.type";
+import {MailOutlined, FieldTimeOutlined, PlusOutlined, ProfileOutlined, CloseOutlined, EditOutlined} from '@ant-design/icons';
+import ShowTask from "../Task/ShowTask";
+
 
 const {Content} = Layout;
 const {Title, Text} = Typography;
@@ -12,8 +15,12 @@ const {Title, Text} = Typography;
 function Today() {
 
     const todoReducer = useSelector(({todoReducer}) => todoReducer);
+    const authReducer = useSelector(({authReducer})=>authReducer)
     const dispatch = useDispatch();
     const action = (type) => dispatch({type});
+
+    const project = authReducer.userTask && authReducer.userTask.projects;
+
 
     useEffect(()=>{
         document.title = 'Today : Todo-List';
@@ -37,7 +44,6 @@ function Today() {
         + year;
     const defaultPickTime = d.getHours() + ":" + (d.getMinutes()<10?'0':'') + d.getMinutes();
 
-
     return (
 
 
@@ -55,7 +61,12 @@ function Today() {
 
 
                 </div>
-                <Divider />
+
+                <Divider style={{margin:0,marginTop:20}}/>
+
+                <ShowTask project={project} date={defaultPickDate}/>
+
+                <Divider style={{margin:0,marginBottom:20}}/>
                 {
                     todoReducer.isOpenTaskForm === false ? <AddTaskButton/>
                         : <TaskForm defaultPickDate={defaultPickDate} defaultPickTime={defaultPickTime}/>

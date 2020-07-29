@@ -3,9 +3,8 @@ const Project = require('../models/project.model');
 const User = require('../models/user.model');
 
 function addTask(req, res) {
-    const projectID = req.body.projectID;
-    const userID = req.body.userID;
-    const name = req.body.name;
+    const projectID = req.body.id;
+    const task = req.body.task;
     const time = req.body.time;
     const date = req.body.date;
     Project.findOne({_id: projectID}).exec((err,project) =>{
@@ -17,7 +16,7 @@ function addTask(req, res) {
             return res.status(400).json({err});
         }
 
-        const newTask = new Task({name,time,date});
+        const newTask = new Task({name : task,time : time,date : date});
         newTask.save()
             .then((task) =>{
                 project.tasks.push(task);

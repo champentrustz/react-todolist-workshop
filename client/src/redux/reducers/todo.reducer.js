@@ -1,8 +1,9 @@
-import {CANCELED_TASK_FORM, OPEN_TASK_FORM} from "../types/todo.type";
+import {ADD_TASK_SUCCESS, CANCELED_TASK_FORM, OPEN_TASK_FORM} from "../types/todo.type";
 
 const initialState = {
     isOpenTaskForm : false,
     modalVisible: false,
+    addTaskSuccess : null,
 };
 
 export default (state = initialState, {type,payload}) =>{
@@ -10,7 +11,9 @@ export default (state = initialState, {type,payload}) =>{
         case OPEN_TASK_FORM :
             return {...state, isOpenTaskForm: true};
         case CANCELED_TASK_FORM :
-            return {...state, isOpenTaskForm: false}
+            return {...state, isOpenTaskForm: false};
+        case ADD_TASK_SUCCESS :
+            return {...state, addTaskSuccess: true}
         default :
             return state;
     }

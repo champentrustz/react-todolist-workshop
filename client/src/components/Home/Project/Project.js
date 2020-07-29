@@ -1,13 +1,14 @@
 import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {Divider, Layout, Typography} from "antd";
+import {Divider, Layout, Empty, Typography,} from "antd";
 import AddTaskButton from "../Task/AddTaskButton";
 import TaskForm from "../Task/TaskForm";
 import {CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
+import ShowTask from "../Task/ShowTask";
 
 const {Content} = Layout;
-const {Title} = Typography;
+const {Title, Text} = Typography;
 
 function Project() {
     let { id } = useParams();
@@ -15,10 +16,10 @@ function Project() {
     const authReducer = useSelector(({authReducer}) => authReducer);
     const project = authReducer.userTask &&
         authReducer.userTask.projects.filter(project => project._id === id);
-    const tasks = project && project[0].tasks;
     const todoReducer = useSelector(({todoReducer}) => todoReducer);
     const dispatch = useDispatch();
     const action = (type) => dispatch({type});
+
 
 
     useEffect(() => {
@@ -27,7 +28,9 @@ function Project() {
 
     },[id]);
 
+
     return (
+
         <Layout style={{marginLeft: 20}}>
             <Content
                 className="site-layout-background"
@@ -36,19 +39,35 @@ function Project() {
 
                 }}
             >
-                <h3>ID: {id}</h3>
-                <Title style={{margin: 0}} level={4}>{project && project[0].name}</Title>
-                <Divider/>
-                {tasks && tasks.map((task,index) =>
-                    <li key={index}>{task.name}</li>
-                )}
+                {
+                    project && project.length !== 0 ? <div>
+                    <Title style={{margin: 0}} level={4}>
+                        {project && project[0].name}
+                    </Title>
+                    <Divider style={{margin: 0, marginTop: 20}}/>
+
+                    <ShowTask project={project}/>
+
+                    <Divider style={{margin: 0, marginBottom: 20}}/>
 
                 {
                     todoReducer.isOpenTaskForm === false ? <AddTaskButton/>
-                        : <TaskForm defaultSelected={project[0].name}/>
+                    : <TaskForm defaultSelected={id}/>
+                }
+                    </div>
+                :
+                        <div>
+                        <Divider style={{margin: 0, marginTop: 20}}/>
+                        <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description={"No Project Available"}
+                    />
+                    <Divider style={{margin: 0, marginTop: 20}}/>
+                        </div>
                 }
             </Content>
         </Layout>
+
     );
 }
 

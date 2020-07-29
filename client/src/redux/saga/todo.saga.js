@@ -3,12 +3,16 @@ import {
     ADD_PROJECT_REQUEST,
     OPEN_TASK_FORM_REQUEST,
     CANCEL_TASK_FORM_REQUEST,
-    EDIT_PROJECT_REQUEST, DELETE_PROJECT_REQUEST
+    EDIT_PROJECT_REQUEST, DELETE_PROJECT_REQUEST, ADD_TASK_REQUEST
 } from "../types/todo.type";
-import {addProject, cancelTaskForm, deleteProject, editProject, openTaskForm} from "../actions/todo.action";
+import {addProject, addTask, cancelTaskForm, deleteProject, editProject, openTaskForm} from "../actions/todo.action";
 
 function* watchAddProjectRequest() {
     yield takeEvery(ADD_PROJECT_REQUEST,addProject);
+}
+
+function* watchAddTaskRequest() {
+    yield takeEvery(ADD_TASK_REQUEST,addTask);
 }
 
 function* watchOpenTaskFormRequest() {
@@ -34,5 +38,6 @@ export function* todoSaga() {
         call(watchAddProjectRequest),
         call(watchEditProjectRequest),
         call(watchDeleteProjectRequest),
+        call(watchAddTaskRequest),
     ])
 }

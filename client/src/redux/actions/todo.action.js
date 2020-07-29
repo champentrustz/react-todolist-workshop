@@ -9,6 +9,35 @@ import {
 
 const axios = require('axios');
 
+export function* addTask({payload}) {
+    const token = yield localStorage.getItem('token');
+    const url = 'http://localhost:5000/api/add-task';
+
+    console.log(payload)
+    if (token) {
+        try {
+            const response = yield axios.post(url, {
+                id: payload.id,
+                task : payload.task,
+                date : payload.date,
+                time : payload.time
+            }, {
+                headers: {
+                    'x-auth-token': token,
+                }
+            });
+
+            yield put({
+                type: ADD_PROJECT_SUCCESS,
+                payload: response.data
+            });
+
+        } catch (e) {
+
+        }
+    }
+}
+
 export function* deleteProject({payload}) {
 
     const token = yield localStorage.getItem('token');
