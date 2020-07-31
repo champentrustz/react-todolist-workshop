@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Input, Button, Card, DatePicker, Select} from 'antd';
 import {useDispatch, useSelector} from "react-redux";
-import {ADD_TASK_REQUEST, CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
+import {ADD_TASK_REQUEST, CANCEL_TASK_FORM_REQUEST, EDIT_TASK_REQUEST} from "../../../redux/types/todo.type";
 import moment from 'moment';
 
 const {Option} = Select;
@@ -11,6 +11,7 @@ function TaskForm(props) {
 
 
 
+    const {defaultTaskName} = props;
     const {defaultPickDate} = props;
     const {defaultPickTime} = props;
 
@@ -20,28 +21,44 @@ function TaskForm(props) {
     const dispatch = useDispatch();
     const action = (type,payload) => dispatch({type,payload});
     const authReducer = useSelector(({authReducer})=>authReducer)
+    const todoReducer = useSelector(({todoReducer})=>todoReducer)
     const [dateTime,setDateTime] = useState(defaultPickDate+' '+defaultPickTime);
 
     const projects = authReducer.userTask && authReducer.userTask.projects;
 
-    const initialProjctSelected = projects && projects.filter(project=> project.type === 'INITIAL');
+    const initialProjectSelected = projects && projects.filter(project=> project.type === 'INITIAL');
 
-    const defaultSelected =  props.defaultSelected ? props.defaultSelected : initialProjctSelected[0]._id;
+    const defaultSelected =  props.defaultSelected ? props.defaultSelected : initialProjectSelected[0]._id;
     const [projectID,setProjectID] = useState(defaultSelected);
 
     const onSubmit = values => {
 
-        const dateTimeArray = dateTime.split(' ');
-        const date = dateTimeArray[0];
-        const time = dateTimeArray[1];
-        const payload = {
-            task : values.todo,
-            date : date,
-            time : time,
-            id : projectID
+        const dateTimeArray = dateTime && dateTime.split(' ');
+        const date = dateTimeArray && dateTimeArray[0];
+        const time = dateTimeArray && dateTimeArray[1];
+
+        if(todoReducer.isOpenTaskForm === true){
+            const payload = {
+                task : values.todo,
+                date : date,
+                time : time,
+                id : projectID
+            }
+            action(ADD_TASK_REQUEST, payload);
+            action(CANCEL_TASK_FORM_REQUEST);
         }
-        action(ADD_TASK_REQUEST, payload);
-        action(CANCEL_TASK_FORM_REQUEST);
+        if(todoReducer.isOpenEditTaskForm === true){
+            const payload = {
+                task : values.todo,
+                date : date,
+                time : time,
+                taskID : todoReducer.editTaskID,
+                projectID : projectID
+            }
+            action(EDIT_TASK_REQUEST, payload);
+            action(CANCEL_TASK_FORM_REQUEST);
+        }
+
     }
 
 
@@ -55,6 +72,7 @@ function TaskForm(props) {
         >
             <Card>
                 <Form.Item
+                    initialValue={defaultTaskName && defaultTaskName}
                     name="todo"
                     rules={[
                         {
@@ -69,13 +87,13 @@ function TaskForm(props) {
 
                     {defaultPickDate ? <DatePicker
                             showTime={{ format: 'HH:mm' }}
-                            onChange={(value) => value && setDateTime(value.format('DD/MM/YYYY HH:mm'))}
+                            onChange={(value) => value ? setDateTime(value.format('DD/MM/YYYY HH:mm')) : setDateTime(value)}
                             defaultValue={moment( defaultPickDate+' '+defaultPickTime, 'DD/MM/YYYY HH:mm')}
                             format={'DD/MM/YYYY HH:mm'}
                         />
                     : <DatePicker
                             showTime={{ defaultValue: moment('00:00', 'HH:mm') }}
-                            onChange={(value) => value && setDateTime(value.format('DD/MM/YYYY HH:mm'))}
+                            onChange={(value) => value ? setDateTime(value.format('DD/MM/YYYY HH:mm')) : setDateTime(value)}
                             format={'DD/MM/YYYY HH:mm'}
                         />
                     }
@@ -96,9 +114,13 @@ function TaskForm(props) {
             <br/>
             <Form.Item>
 
-                <Button type="primary" htmlType="submit">
+
+                {todoReducer.isOpenTaskForm === true && <Button type="primary" htmlType="submit">
                     Add task
-                </Button>
+                </Button>}
+                {todoReducer.isOpenEditTaskForm === true && <Button type="primary" htmlType="submit">
+                    Submit
+                </Button>}
                 <Button style={{marginLeft: 10}} onClick={() => action(CANCEL_TASK_FORM_REQUEST)}>
                     Cancel
                 </Button>

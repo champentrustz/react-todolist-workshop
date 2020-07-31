@@ -1,16 +1,21 @@
-import {CANCELED_TASK_FORM, OPEN_TASK_FORM} from "../types/todo.type";
+import {CANCELED_TASK_FORM, OPEN_EDIT_TASK_FORM, OPEN_TASK_FORM} from "../types/todo.type";
 
 const initialState = {
     isOpenTaskForm : false,
-    modalVisible: false,
+    isOpenEditTaskForm : false,
+    editTaskID : null,
 };
 
 export default (state = initialState, {type,payload}) =>{
+
+
     switch (type) {
         case OPEN_TASK_FORM :
-            return {...state, isOpenTaskForm: true};
+            return {...state, isOpenTaskForm: true, isOpenEditTaskForm: false};
         case CANCELED_TASK_FORM :
-            return {...state, isOpenTaskForm: false};
+            return {...state, isOpenTaskForm: false, isOpenEditTaskForm: false};
+        case OPEN_EDIT_TASK_FORM :
+            return {...state, isOpenEditTaskForm : true, isOpenTaskForm: false, editTaskID : payload}
         default :
             return state;
     }

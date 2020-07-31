@@ -16,7 +16,7 @@ function addProject(req, res) {
             return res.status(401).json({msg: 'No user'});
         }
         if(err){
-            return res.status(400).json({err})
+            return res.status(400).json({err});
         }
         const newProject = new Project({user: userID, name: name, type: type})
         newProject.save()
@@ -31,13 +31,13 @@ function addProject(req, res) {
 }
 
 function editProject(req, res){
+    const userID = req.user.id;
     const projectID = req.body.id;
     const name = req.body.name
     Project.findOneAndUpdate({_id: projectID},{$set:{name:name}}, {
         new:true
     }).then(() => {
 
-        const userID = req.user.id;
         User.findOne({_id : userID},'name').populate({
             path : 'projects',
             populate : {
@@ -55,8 +55,7 @@ function editProject(req, res){
 
 function deleteProject(req, res){
     const projectID = req.body.id;
-
-
+    const userID = req.user.id;
 
     Project.findOneAndDelete({_id: projectID}).then(project =>{
 
@@ -77,8 +76,6 @@ function deleteProject(req, res){
                 if(err){
                     return res.json({err})
                 }
-
-                const userID = req.user.id;
                 User.findOne({_id : userID},'name').populate({
                     path : 'projects',
                     populate : {

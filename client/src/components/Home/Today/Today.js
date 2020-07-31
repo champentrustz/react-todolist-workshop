@@ -22,6 +22,8 @@ function Today() {
     const project = authReducer.userTask && authReducer.userTask.projects;
 
 
+
+
     useEffect(()=>{
         document.title = 'Today : Todo-List';
         action(CANCEL_TASK_FORM_REQUEST);
@@ -44,6 +46,17 @@ function Today() {
         + year;
     const defaultPickTime = d.getHours() + ":" + (d.getMinutes()<10?'0':'') + d.getMinutes();
 
+    let isTaskAvailable = false;
+
+    project && project.map(project =>{
+        project.tasks.map(task => {
+            if(task.date === defaultPickDate){
+                isTaskAvailable = true;
+            }
+        })
+    })
+
+
     return (
 
 
@@ -64,7 +77,7 @@ function Today() {
 
                 <Divider style={{margin:0,marginTop:20}}/>
 
-                <ShowTask project={project} date={defaultPickDate}/>
+                <ShowTask project={project} date={defaultPickDate} isTaskAvailable={isTaskAvailable}/>
 
                 <Divider style={{margin:0,marginBottom:20}}/>
                 {

@@ -1,42 +1,73 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { List, Tag, Typography, Empty} from "antd";
 import './index.css';
 import {
     Link,
 } from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {DELETE_TASK_REQUEST, OPEN_EDIT_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
+import TaskForm from "./TaskForm";
 
 
 const {Text} = Typography;
 
+
+
 function ShowTask(props) {
 
     const dispatch = useDispatch();
-    const action = (type) => dispatch({type});
+    const action = (type,payload) => dispatch({type,payload});
+    const todoReducer = useSelector(({todoReducer})=>todoReducer)
+
+    const project = props.project;
+
+
 
     return (
-    props.project &&
-        <List
 
+        props.isTaskAvailable === true ?
+        <List
             itemLayout="horizontal"
-            dataSource={props.project}
+            dataSource={project ? project : []}
             renderItem={project =>
 
-                project.tasks.length !== 0 ? project.tasks.map(task =>
+
+                project.tasks.length !== 0 &&  project.tasks.map(task =>
+
+
+
+                    (todoReducer.isOpenEditTaskForm === true && todoReducer.editTaskID === task._id)  ?
+
+
+
+                        task.date && task.date !== 'undefined'  ?
+
+                        <TaskForm defaultTaskName={task.name}
+                                  defaultPickDate={task.date}
+                                  defaultPickTime={task.time}
+                                  defaultSelected={project._id}
+                        /> : <TaskForm defaultTaskName={task.name}
+                                       defaultSelected={project._id}
+                            />
+                        :
 
                         props.date ?
                             props.date === task.date &&
+
+
+
                             <List.Item
                                 actions={[
                                     <Tag >
                                         <Link className="show-project" to={`/project/${project._id}`}>#{project.name}</Link>
                                     </Tag>,
-                                    <a onClick={()=> action}>edit</a>,
-                                    <a><Text type="danger">delete</Text></a>,
+                                    <a onClick={()=> action(OPEN_EDIT_TASK_FORM_REQUEST,task._id)}>edit</a>,
+                                    <a onClick={()=> action(DELETE_TASK_REQUEST,task._id)}><Text type="danger">delete</Text></a>,
                                 ]}
                             >
+
                                 {
-                                    (task.date !== 'undefined' || task.time !== 'undefined') ?
+                                    task.date && task.date !== 'undefined'  ?
                                         <List.Item.Meta
                                             className="text-newline"
                                             title={task.name}
@@ -56,12 +87,12 @@ function ShowTask(props) {
                             </List.Item> :
                             <List.Item
                                 actions={[
-                                    <a>edit</a>,
-                                    <a><Text type="danger">delete</Text></a>,
+                                    <a onClick={()=> action(OPEN_EDIT_TASK_FORM_REQUEST,task._id)}>edit</a>,
+                                    <a onClick={()=> action(DELETE_TASK_REQUEST,task._id)}><Text type="danger">delete</Text></a>,
                                 ]}
                             >
                                 {
-                                    (task.date !== 'undefined' || task.time !== 'undefined') ?
+                                    task.date && task.date !== 'undefined'  ?
                                         <List.Item.Meta
                                             className="text-newline"
                                             title={<Text>{task.name}</Text>}
@@ -76,18 +107,23 @@ function ShowTask(props) {
 
                                 }
 
+
                                 {/*<div>content</div>*/}
+
                             </List.Item>
-                    ) : <Empty
-                    image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description={"No Task Available"}
-                />
+
+                    )
 
             }
-        />
-
-
+        /> :
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={'No Task Available'}
+            />
     );
+
+
+
 }
+
 
 export default ShowTask;

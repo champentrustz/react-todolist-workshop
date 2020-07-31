@@ -1,7 +1,13 @@
 import { LOGIN_SUCCESS, LOGIN_ERROR} from "../types/login.type";
 import { REGISTER_ERROR, REGISTER_SUCCESS} from "../types/register.type";
 import {LOAD_USER_ERROR, LOAD_USER_SUCCESS, LOAD_USER_TASKS_SUCCESS} from "../types/auth.type";
-import {ADD_PROJECT_SUCCESS, ADD_TASK_SUCCESS, DELETE_PROJECT_SUCCESS, EDIT_PROJECT_SUCCESS} from "../types/todo.type";
+import {
+    ADD_PROJECT_SUCCESS,
+    ADD_TASK_SUCCESS,
+    DELETE_PROJECT_SUCCESS, DELETE_TASK_SUCCESS,
+    EDIT_PROJECT_SUCCESS,
+    EDIT_TASK_SUCCESS
+} from "../types/todo.type";
 
 
 const initialState = {
@@ -39,9 +45,13 @@ export default (state = initialState, {type,payload}) => {
             return {...state, userTask: payload.user}
         case EDIT_PROJECT_SUCCESS:
             return {...state, userTask: payload.user}
+        case EDIT_TASK_SUCCESS:
+            return {...state, userTask: payload.user}
         case ADD_TASK_SUCCESS:
             return {...state, userTask: payload.user}
         case DELETE_PROJECT_SUCCESS:
+            return {...state,userTask: payload.user}
+        case DELETE_TASK_SUCCESS:
             return {...state,userTask: payload.user}
         default:
             return state;

@@ -20,6 +20,15 @@ function Project() {
     const dispatch = useDispatch();
     const action = (type) => dispatch({type});
 
+    let isTaskAvailable = false;
+
+    project && project.map(project =>{
+        if(project.tasks.length !== 0){
+            isTaskAvailable = true
+        }
+    })
+
+
 
 
     useEffect(() => {
@@ -46,7 +55,7 @@ function Project() {
                     </Title>
                     <Divider style={{margin: 0, marginTop: 20}}/>
 
-                    <ShowTask project={project}/>
+                    <ShowTask project={project} isTaskAvailable={isTaskAvailable}/>
 
                     <Divider style={{margin: 0, marginBottom: 20}}/>
 

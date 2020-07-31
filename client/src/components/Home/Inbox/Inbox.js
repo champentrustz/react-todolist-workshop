@@ -17,7 +17,16 @@ function Inbox() {
     const dispatch = useDispatch();
     const action = (type) => dispatch({type});
 
+    let isTaskAvailable = false;
+
     const project = authReducer.userTask && authReducer.userTask.projects.filter(project => project.type === 'INITIAL')
+
+    project && project.map(project =>{
+        if(project.tasks.length !== 0){
+            isTaskAvailable = true;
+        }
+    })
+
 
 
     useEffect(() => {
@@ -42,7 +51,7 @@ function Inbox() {
                 <Title style={{margin: 0}} level={4}>Inbox</Title>
                 <Divider style={{margin:0,marginTop:20}}/>
 
-                <ShowTask project={project}/>
+                <ShowTask project={project} isTaskAvailable={isTaskAvailable}/>
 
                 <Divider style={{margin:0,marginBottom:20}}/>
 
