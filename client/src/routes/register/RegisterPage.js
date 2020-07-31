@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {
     Layout,
     Form,
@@ -44,7 +44,9 @@ const tailFormItemLayout = {
 function RegisterPage() {
 
     const dispatch = useDispatch();
-    const action = (type, payload) => dispatch({type, payload});
+    const action = useCallback((type,payload) =>{
+        dispatch({type,payload});
+    },[dispatch])
     const authReducer = useSelector(({authReducer}) => authReducer);
 
     const isRegistered = authReducer.isRegistered;
@@ -62,7 +64,7 @@ function RegisterPage() {
 
         document.title = 'Register : Todo-List';
 
-    },[isRegistered]);
+    },[isRegistered, history]);
 
     const onSubmit = values => {
         action(REGISTER_REQUEST,values);

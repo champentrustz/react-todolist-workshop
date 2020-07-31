@@ -1,14 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {
     Route,
-    Redirect, useHistory,
+    Redirect,
 } from "react-router-dom";
 
-import {useDispatch, useSelector} from "react-redux";
-import {LOAD_USER_REQUEST, LOAD_USER_SUCCESS} from "../../redux/types/auth.type";
-import {REGISTER_REQUEST} from "../../redux/types/register.type";
+import {useSelector} from "react-redux";
 
-const axios = require('axios');
 
 
 function PrivateRoute({children, ...rest}) {

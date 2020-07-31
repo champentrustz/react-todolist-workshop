@@ -1,18 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Layout} from "antd";
 import './home.css';
 import Sidebar from "../../components/Sidebar/Sidebar";
 import {
     Switch,
     Route,
-    useParams,
 } from 'react-router-dom';
 import Today from "../../components/Home/Today/Today";
 import Inbox from "../../components/Home/Inbox/Inbox";
 import Project from "../../components/Home/Project/Project";
 import {useDispatch} from "react-redux";
 import {LOAD_USER_TASKS_REQUEST} from "../../redux/types/auth.type";
-import {EDIT_PROJECT_REQUEST} from "../../redux/types/todo.type";
 
 
 
@@ -20,11 +18,13 @@ function HomePage() {
 
 
     const dispatch = useDispatch();
-    const action = (type) => dispatch({type});
+    const action = useCallback((type) =>{
+        dispatch({type});
+    },[dispatch])
 
     useEffect(()=>{
         action(LOAD_USER_TASKS_REQUEST);
-    },[])
+    },[action])
 
 
 

@@ -1,5 +1,5 @@
 import {put} from 'redux-saga/effects'
-import {LOGIN_ERROR, LOGIN_SUCCESS, ON_LOGIN} from "../types/login.type";
+import {LOGIN_ERROR, LOGIN_SUCCESS} from "../types/login.type";
 
 
 const axios = require('axios');

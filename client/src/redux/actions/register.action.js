@@ -1,5 +1,5 @@
-import {put, call} from 'redux-saga/effects';
-import {CLEAR_REGISTER_SUCCESS, REGISTER_ERROR, REGISTER_SUCCESS} from "../types/register.type";
+import {put} from 'redux-saga/effects';
+import {REGISTER_ERROR, REGISTER_SUCCESS} from "../types/register.type";
 
 const axios = require('axios');
 

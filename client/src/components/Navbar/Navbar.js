@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {Layout, Menu, Button, Avatar} from 'antd';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Layout, Menu} from 'antd';
 import './navbar.css';
 import {useLocation, Link} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
-import {LOAD_USER_REQUEST, LOGOUT_REQUEST} from "../../redux/types/auth.type";
-import {UserOutlined, LogoutOutlined, MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons';
+import {LOAD_USER_REQUEST} from "../../redux/types/auth.type";
+import {UserOutlined, LogoutOutlined} from '@ant-design/icons';
 
 
 const {Header} = Layout;
@@ -14,9 +14,12 @@ const {SubMenu} = Menu;
 function Navbar() {
 
     const dispatch = useDispatch();
-    const action = (type) => dispatch({type});
+    const action = useCallback((type) =>{
+        dispatch({type});
+    },[dispatch])
     const [visible, setVisible] = useState('');
     const location = useLocation();
+
 
 
     useEffect(() => {
@@ -28,7 +31,7 @@ function Navbar() {
             action(LOAD_USER_REQUEST);
         }
 
-    }, [location]);
+    }, [location, action]);
 
     // useEffect(() => {
     //

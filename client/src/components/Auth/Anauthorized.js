@@ -1,12 +1,10 @@
 import React from "react";
 import {
-    Route, Link, Redirect,
+    Route, Redirect,
 } from "react-router-dom";
 
 import {useSelector} from "react-redux";
-import {Alert, Button, Layout} from "antd";
 
-const {Content} = Layout;
 
 
 

@@ -1,11 +1,10 @@
-import React, {useEffect} from 'react';
-import {Divider, Layout, List, Menu} from "antd";
-import {Card, Row, Col, Alert, Button,Typography, Breadcrumb, Tag} from "antd";
+import React, {useCallback, useEffect} from 'react';
+import {Divider, Layout} from "antd";
+import {Typography} from "antd";
 import AddTaskButton from "../Task/AddTaskButton";
 import {useDispatch, useSelector} from "react-redux";
 import TaskForm from "../Task/TaskForm";
-import {CANCEL_TASK_FORM_REQUEST, DELETE_PROJECT_REQUEST} from "../../../redux/types/todo.type";
-import {MailOutlined, FieldTimeOutlined, PlusOutlined, ProfileOutlined, CloseOutlined, EditOutlined} from '@ant-design/icons';
+import {CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
 import ShowTask from "../Task/ShowTask";
 
 
@@ -17,7 +16,9 @@ function Today() {
     const todoReducer = useSelector(({todoReducer}) => todoReducer);
     const authReducer = useSelector(({authReducer})=>authReducer)
     const dispatch = useDispatch();
-    const action = (type) => dispatch({type});
+    const action = useCallback((type) =>{
+        dispatch({type});
+    },[dispatch])
 
     const project = authReducer.userTask && authReducer.userTask.projects;
 
@@ -28,7 +29,7 @@ function Today() {
         document.title = 'Today : Todo-List';
         action(CANCEL_TASK_FORM_REQUEST);
 
-        },[])
+        },[action])
 
     const d = new Date();
     const months = ["Jan", "Feb", "Mar", "Apr", "May",
@@ -49,11 +50,16 @@ function Today() {
     let isTaskAvailable = false;
 
     project && project.map(project =>{
-        project.tasks.map(task => {
-            if(task.date === defaultPickDate){
-                isTaskAvailable = true;
-            }
-        })
+        if(project.length !== 0) {
+            project.tasks.map(task => {
+                if (task.date === defaultPickDate) {
+                    isTaskAvailable = true;
+                }
+                return null;
+            })
+        }
+            return null;
+
     })
 
 

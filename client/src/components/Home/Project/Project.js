@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {Divider, Layout, Empty, Typography,} from "antd";
@@ -8,7 +8,7 @@ import {CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
 import ShowTask from "../Task/ShowTask";
 
 const {Content} = Layout;
-const {Title, Text} = Typography;
+const {Title} = Typography;
 
 function Project() {
     let { id } = useParams();
@@ -18,7 +18,9 @@ function Project() {
         authReducer.userTask.projects.filter(project => project._id === id);
     const todoReducer = useSelector(({todoReducer}) => todoReducer);
     const dispatch = useDispatch();
-    const action = (type) => dispatch({type});
+    const action = useCallback((type) =>{
+        dispatch({type});
+    },[dispatch])
 
     let isTaskAvailable = false;
 
@@ -26,6 +28,7 @@ function Project() {
         if(project.tasks.length !== 0){
             isTaskAvailable = true
         }
+        return null;
     })
 
 
@@ -35,7 +38,7 @@ function Project() {
         document.title = 'Project : Todo-List';
         action(CANCEL_TASK_FORM_REQUEST);
 
-    },[id]);
+    },[id, action]);
 
 
     return (

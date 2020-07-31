@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Badge, Button, Typography, Form, Input, Layout, Menu, Modal} from 'antd';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Button, Form, Input, Layout, Menu, Modal} from 'antd';
 import {MailOutlined, FieldTimeOutlined, PlusOutlined, ProfileOutlined, CloseOutlined, EditOutlined} from '@ant-design/icons';
 import './sidebar.css';
 
@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import {
     ADD_PROJECT_REQUEST,
-    CANCEL_TASK_FORM_REQUEST,
     DELETE_PROJECT_REQUEST,
     EDIT_PROJECT_REQUEST
 } from "../../redux/types/todo.type";
@@ -17,7 +16,6 @@ import {useDispatch, useSelector} from "react-redux";
 
 const {Sider} = Layout;
 const {SubMenu} = Menu;
-const {Text} = Typography;
 
 function Sidebar() {
 
@@ -26,7 +24,10 @@ function Sidebar() {
     const [editProjectModalVisible, setEditProjectModalVisible] = useState(initialEditProject);
     let {path} = useRouteMatch();
     const dispatch = useDispatch();
-    const action = (type,payload) => dispatch({type,payload});
+
+    const action = useCallback((type,payload) =>{
+        dispatch({type,payload});
+    },[dispatch])
 
 
     const authReducer = useSelector(({authReducer}) => authReducer);
@@ -37,7 +38,7 @@ function Sidebar() {
 
     useEffect(()=>{
         formEdit.setFieldsValue({project : editProjectModalVisible.project.name})
-    },[editProjectModalVisible])
+    },[editProjectModalVisible, formEdit])
 
 
     return (

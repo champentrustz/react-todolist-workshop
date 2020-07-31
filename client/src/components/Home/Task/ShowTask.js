@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { List, Tag, Typography, Empty} from "antd";
+import React from 'react';
+import { List, Tag, Typography, Empty, Button} from "antd";
 import './index.css';
 import {
     Link,
@@ -61,8 +61,8 @@ function ShowTask(props) {
                                     <Tag >
                                         <Link className="show-project" to={`/project/${project._id}`}>#{project.name}</Link>
                                     </Tag>,
-                                    <a onClick={()=> action(OPEN_EDIT_TASK_FORM_REQUEST,task._id)}>edit</a>,
-                                    <a onClick={()=> action(DELETE_TASK_REQUEST,task._id)}><Text type="danger">delete</Text></a>,
+                                    <Button type="text" onClick={()=> action(OPEN_EDIT_TASK_FORM_REQUEST,task._id)}>edit</Button>,
+                                    <Button type="text" onClick={()=> action(DELETE_TASK_REQUEST,task._id)}><Text type="danger">delete</Text></Button>,
                                 ]}
                             >
 
@@ -87,8 +87,8 @@ function ShowTask(props) {
                             </List.Item> :
                             <List.Item
                                 actions={[
-                                    <a onClick={()=> action(OPEN_EDIT_TASK_FORM_REQUEST,task._id)}>edit</a>,
-                                    <a onClick={()=> action(DELETE_TASK_REQUEST,task._id)}><Text type="danger">delete</Text></a>,
+                                    <Button type="text" onClick={()=> action(OPEN_EDIT_TASK_FORM_REQUEST,task._id)}>edit</Button>,
+                                    <Button type="text" onClick={()=> action(DELETE_TASK_REQUEST,task._id)}><Text type="danger">delete</Text></Button>,
                                 ]}
                             >
                                 {

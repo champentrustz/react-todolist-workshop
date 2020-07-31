@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Button} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
-import {useDispatch, useSelector} from "react-redux";
-import {OPEN_TASK_FORM_REQUEST, CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
+import {useDispatch} from "react-redux";
+import {OPEN_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
 
 
 function AddTaskButton() {

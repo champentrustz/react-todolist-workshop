@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Divider, Layout} from "antd";
-import {Card, List, Row, Col, Alert, Button, Typography, Breadcrumb} from "antd";
+import {Typography} from "antd";
 import AddTaskButton from "../Task/AddTaskButton";
 import TaskForm from "../Task/TaskForm";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,31 +8,38 @@ import {CANCEL_TASK_FORM_REQUEST} from "../../../redux/types/todo.type";
 import ShowTask from "../Task/ShowTask";
 
 const {Content} = Layout;
-const {Title, Text} = Typography;
+const {Title} = Typography;
 
 function Inbox() {
 
     const todoReducer = useSelector(({todoReducer}) => todoReducer);
     const authReducer = useSelector(({authReducer})=>authReducer)
     const dispatch = useDispatch();
-    const action = (type) => dispatch({type});
+
+    const action = useCallback((type) =>{
+        dispatch({type});
+    },[dispatch])
 
     let isTaskAvailable = false;
 
     const project = authReducer.userTask && authReducer.userTask.projects.filter(project => project.type === 'INITIAL')
 
+
     project && project.map(project =>{
         if(project.tasks.length !== 0){
             isTaskAvailable = true;
         }
+        return null;
     })
 
 
 
     useEffect(() => {
+
         document.title = 'Inbox : Todo-List';
         action(CANCEL_TASK_FORM_REQUEST);
-    }, []);
+    }, [action]);
+
 
 
 

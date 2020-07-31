@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import './login.css';
 import {Layout, Card, Form, Button, Input, Typography, Alert} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import {Link, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {LOGIN_REQUEST, ON_LOGIN_REQUEST} from "../../redux/types/login.type";
-import {CANCEL_TASK_FORM_REQUEST} from "../../redux/types/todo.type";
+import {LOGIN_REQUEST} from "../../redux/types/login.type";
 
 const {Text} = Typography;
 const {Content} = Layout;
@@ -29,7 +28,7 @@ function LoginPage() {
             history.push("/");
         }
         document.title = 'Login : Todo-List';
-    },[isLogin]);
+    },[isLogin,history]);
 
 
 
