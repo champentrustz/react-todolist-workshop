@@ -58,11 +58,10 @@ function ShowTask(props) {
 
                             <List.Item
                                 actions={[
-                                    <Tag >
-                                        <Link className="show-project" to={`/project/${project._id}`}>#{project.name}</Link>
-                                    </Tag>,
-                                    <Button type="text" onClick={()=> action(OPEN_EDIT_TASK_FORM_REQUEST,task._id)}>edit</Button>,
-                                    <Button type="text" onClick={()=> action(DELETE_TASK_REQUEST,task._id)}><Text type="danger">delete</Text></Button>,
+                                    <div>
+                                    <Button type="text" onClick={()=> action(OPEN_EDIT_TASK_FORM_REQUEST,task._id)}>edit</Button>
+                                    <Button type="text" onClick={()=> action(DELETE_TASK_REQUEST,task._id)}><Text type="danger">delete</Text></Button>
+                                    </div>
                                 ]}
                             >
 
@@ -70,14 +69,18 @@ function ShowTask(props) {
                                     task.date && task.date !== 'undefined'  ?
                                         <List.Item.Meta
                                             className="text-newline"
-                                            title={task.name}
+                                            title={<Text >{task.name}
+                                                <Link to={`/project/${project._id}`}> (#{project.name})</Link>
+                                            </Text>}
                                             description={
-                                                task.date + ' ' + task.time
+                                                <div >{task.date + ' ' + task.time}</div>
                                             }
                                         /> :
                                         <List.Item.Meta
                                             className="text-newline"
-                                            title={<Text>{task.name}</Text>}
+                                            title={<Text>{task.name}
+                                                <Link to={`/project/${project._id}`}> (#{project.name})</Link>
+                                            </Text>}
                                         />
 
 
@@ -87,8 +90,10 @@ function ShowTask(props) {
                             </List.Item> :
                             <List.Item
                                 actions={[
-                                    <Button type="text" onClick={()=> action(OPEN_EDIT_TASK_FORM_REQUEST,task._id)}>edit</Button>,
-                                    <Button type="text" onClick={()=> action(DELETE_TASK_REQUEST,task._id)}><Text type="danger">delete</Text></Button>,
+                                    <div>
+                                    <Button type="text" onClick={()=> action(OPEN_EDIT_TASK_FORM_REQUEST,task._id)}>edit</Button>
+                                    <Button type="text" onClick={()=> action(DELETE_TASK_REQUEST,task._id)}><Text type="danger">delete</Text></Button>
+                                    </div>
                                 ]}
                             >
                                 {
@@ -97,7 +102,8 @@ function ShowTask(props) {
                                             className="text-newline"
                                             title={<Text>{task.name}</Text>}
                                             description={
-                                                task.date + ' ' + task.time}
+                                                <div>{task.date + ' ' + task.time}</div>
+                                            }
                                         /> :
                                         <List.Item.Meta
                                             className="text-newline"
