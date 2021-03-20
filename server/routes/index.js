@@ -6,10 +6,10 @@ const userRouter = require('./user.router');
 const taskRouter = require('./task.router');
 const projectRouter = require('./project.router');
 
-const router = express.Router();
+const rootRouter = express.Router();
 
-router.use('/user',userRouter);
-router.use('/project',projectRouter);
-router.use('/task',taskRouter);
+rootRouter.use('/user',userRouter);
+rootRouter.use('/project',projectRouter);
+rootRouter.use('/task',taskRouter);
 
-module.exports = router;
+module.exports = rootRouter;
