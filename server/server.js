@@ -2,9 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const db = require('./database');
 
-const userRouter = require('./routes/user.router');
-const projectRouter = require('./routes/project.router');
-const taskRouter = require('./routes/task.router');
+const router = require('./routes');
 
 const app = express();
 const port = process.env.PORT;
@@ -17,9 +15,7 @@ db.on('open', () =>{
     console.log("Success!")
 });
 
-app.use('/api', userRouter);
-app.use('/api', projectRouter);
-app.use('/api', taskRouter);
+app.use('/api', router);
 
 
 
