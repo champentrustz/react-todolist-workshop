@@ -10,7 +10,7 @@ export function* RegisterAction({payload}) {
     const {name} = payload;
     const {username} = payload;
     const {password} = payload;
-    const url = 'http://localhost:5000/api/register';
+    const url = 'http://localhost:5000/api/user/register';
 
     try{
           const response = yield axios.post(url,{

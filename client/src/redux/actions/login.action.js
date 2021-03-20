@@ -10,7 +10,7 @@ export function* LoginAction({payload}) {
     const {username} = payload;
     const {password} = payload
 
-    const url = 'http://localhost:5000/api/login';
+    const url = 'http://localhost:5000/api/user/login';
 
     try {
         const response = yield axios.post(url, {

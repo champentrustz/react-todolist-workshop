@@ -14,7 +14,7 @@ export function* addTask({payload}) {
 
 
     const token = yield localStorage.getItem('token');
-    const url = 'http://localhost:5000/api/add-task';
+    const url = 'http://localhost:5000/api/task/add-task';
 
     if (token) {
         try {
@@ -43,7 +43,7 @@ export function* addTask({payload}) {
 export function* deleteProject({payload}) {
 
     const token = yield localStorage.getItem('token');
-    const url = 'http://localhost:5000/api/delete-project';
+    const url = 'http://localhost:5000/api/task/delete-project';
 
     if (token) {
         try {
@@ -69,7 +69,7 @@ export function* deleteProject({payload}) {
 
 export function* editProject({payload}) {
     const token = yield localStorage.getItem('token');
-    const url = 'http://localhost:5000/api/edit-project';
+    const url = 'http://localhost:5000/api/project/edit-project';
 
     if (token) {
         try {
@@ -98,7 +98,7 @@ export function* editProject({payload}) {
 export function* editTask({payload}) {
 
     const token = yield localStorage.getItem('token');
-    const url = 'http://localhost:5000/api/edit-task';
+    const url = 'http://localhost:5000/api/task/edit-task';
 
 
     if (token) {
@@ -130,7 +130,7 @@ export function* editTask({payload}) {
 
 export function* deleteTask({payload}) {
     const token = yield localStorage.getItem('token');
-    const url = 'http://localhost:5000/api/delete-task';
+    const url = 'http://localhost:5000/api/task/delete-task';
 
 
     if (token) {
@@ -159,7 +159,7 @@ export function* addProject({payload}) {
 
 
     const token = yield localStorage.getItem('token');
-    const url = 'http://localhost:5000/api/add-project';
+    const url = 'http://localhost:5000/api/task/add-project';
 
     if (token) {
         try {

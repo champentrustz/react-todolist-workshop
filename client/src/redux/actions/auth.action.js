@@ -10,7 +10,7 @@ const axios = require('axios');
 export function* loadingUserTask() {
 
     const token = yield localStorage.getItem('token');
-    const url = 'http://localhost:5000/api/get-user-details';
+    const url = 'http://localhost:5000/api/user/get-user-details';
 
     if(token) {
         try {
@@ -38,7 +38,7 @@ export function* loadingUserTask() {
 export function* loadingUser() {
 
     const token = yield localStorage.getItem('token');
-    const url = 'http://localhost:5000/api/user';
+    const url = 'http://localhost:5000/api/user/get-auth';
 
     if(token) {
         try {
